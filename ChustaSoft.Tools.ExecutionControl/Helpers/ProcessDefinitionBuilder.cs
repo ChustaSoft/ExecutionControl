@@ -12,18 +12,33 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
     public class ProcessDefinitionBuilder<TKey> : IProcessDefinitionBuilder<TKey>, IBuilder<IEnumerable<ProcessDefinition<TKey>>>
     {
 
+        #region Fields
+
         private ICollection<ProcessDefinition<TKey>> _executionDefinitionCollection;
         private ProcessDefinition<TKey> _executionDefinition;
         private ProcessModuleDefinition<TKey> _processModuleDefinition;
 
+        #endregion
+
+
+        #region Properties
 
         public ICollection<ErrorMessage> Errors { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+        #endregion
+
+
+        #region Constructor
 
         public ProcessDefinitionBuilder()
         {
             _executionDefinitionCollection = Enumerable.Empty<ProcessDefinition<TKey>>().ToList();
         }
+
+        #endregion
+
+
+        #region Public methods
 
         public IProcessDefinitionBuilder<TKey> New(string name, string description)
         {
@@ -63,7 +78,12 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
             TryAddCurrentElement();
 
             return _executionDefinitionCollection;
-        } 
+        }
+
+        #endregion
+
+
+        #region Private methods
 
         private void TryAddCurrentElement()
         {
@@ -82,6 +102,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
 
             _processModuleDefinition = null;
         }
+
+        #endregion
 
     }
 }

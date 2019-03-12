@@ -75,6 +75,30 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         }
 
         [TestMethod]
+        public void Given_CreatedDefinition_When_AddModuleWithConcurrentBoolean_Then_DefinitionWithModuleReturned()
+        {
+            string testName = "TestName", testDescription = "TestDescription";
+            string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
+            var type = ExecutionType.Automatic;
+            var builder = new ExecutionBuilder<Guid>();
+
+            builder.Generate(c =>
+            {
+                c.New(testName, testDescription).SetType(type).AddModule(testNameModule, testDescriptionModule, true);
+            });
+
+            var result = builder.Build();
+            var elementCreated = result.First();
+
+            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(elementCreated.Name, testName);
+            Assert.AreEqual(elementCreated.Description, testDescription);
+            Assert.AreEqual(elementCreated.Type, type);
+            Assert.AreEqual(elementCreated.ModuleDefinitions.Count(), 1);
+            Assert.IsTrue(elementCreated.ModuleDefinitions.Any(x => x.Concurrent));
+        }
+
+        [TestMethod]
         public void Given_CreatedDefinition_When_AddModuleMultipleTimes_Then_DefinitionWithModulesReturned()
         {
             string testName = "TestName", testDescription = "TestDescription";
@@ -100,6 +124,33 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         }
 
         [TestMethod]
+        public void Given_CreatedDefinition_When_AddModuleMultipleTimesWithDifferentConcurrentBooleans_Then_DefinitionWithModulesReturned()
+        {
+            string testName = "TestName", testDescription = "TestDescription";
+            string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
+            var type = ExecutionType.Automatic;
+            var builder = new ExecutionBuilder<Guid>();
+
+            builder.Generate(c =>
+            {
+                c.New(testName, testDescription).SetType(type)
+                    .AddModule(testNameModule, testDescriptionModule)
+                    .AddModule(testNameModule, testDescriptionModule, true);
+            });
+
+            var result = builder.Build();
+            var elementCreated = result.First();
+
+            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(elementCreated.Name, testName);
+            Assert.AreEqual(elementCreated.Description, testDescription);
+            Assert.AreEqual(elementCreated.Type, type);
+            Assert.AreEqual(elementCreated.ModuleDefinitions.Count(), 2);
+            Assert.IsTrue(elementCreated.ModuleDefinitions.Any(x => x.Concurrent));
+            Assert.IsTrue(elementCreated.ModuleDefinitions.Any(x => !x.Concurrent));
+        }
+
+        [TestMethod]
         public void Given_CreatedDefinitions_When_AddModuleMultipleTimes_Then_DefinitionsWithModulesReturned()
         {
             string testName = "TestName", testDescription = "TestDescription";
@@ -115,7 +166,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
 
                 c.New(testName + 2, testDescription + 2).SetType(type)
                     .AddModule(testNameModule + 2, testDescriptionModule + 2)
-                    .AddModule(testNameModule + 2, testDescriptionModule + 2, true);
+                    .AddModule(testNameModule + 2, testDescriptionModule + 2);
             });
 
             var result = builder.Build();
@@ -133,7 +184,6 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             Assert.AreEqual(secondElementCreated.Description, testDescription + 2);
             Assert.AreEqual(secondElementCreated.Type, type);
             Assert.AreEqual(secondElementCreated.ModuleDefinitions.Count(), 2);
-            Assert.IsTrue(secondElementCreated.ModuleDefinitions.Any(x => x.Concurrent));
         }
 
     }
