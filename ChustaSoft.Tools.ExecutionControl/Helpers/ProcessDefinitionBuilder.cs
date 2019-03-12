@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Common.Utilities;
+﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Common.Utilities;
 using ChustaSoft.Tools.ExecutionControl.Contracts;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Model;
@@ -8,11 +9,12 @@ using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Helpers
 {
-    public class ProcessDefinitionBuilder<TKey> : IProcessDefinitionBuilder<TKey>, IMultipleBuilder<ProcessDefinition<TKey>>, IInternalParentBuilder<IProcessDefinitionBuilder<TKey>, ProcessModuleDefinition<TKey>>
+    public class ProcessDefinitionBuilder<TKey> : IProcessDefinitionBuilder<TKey>, IBuilder<IEnumerable<ProcessDefinition<TKey>>>
     {
 
         private ICollection<ProcessDefinition<TKey>> _executionDefinitionCollection;
         private ProcessDefinition<TKey> _executionDefinition;
+        private ProcessModuleDefinition<TKey> _processModuleDefinition;
 
 
         public ICollection<ErrorMessage> Errors { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
@@ -43,28 +45,20 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
             return this;
         }
 
-        public IProcessModuleDefinitionBuilder<TKey> AddModule(string name, string description)
+        public IProcessDefinitionBuilder<TKey> AddModule(string name, string description, bool concurrent = false)
         {
-            var _processModuleDefinitionBuilder = new ProcessModuleDefinitionBuilder<TKey>(this);
+            TryAddCurrentModule();
 
-            _processModuleDefinitionBuilder.New(name, description);
+            _processModuleDefinition = new ProcessModuleDefinition<TKey>();
 
-            return _processModuleDefinitionBuilder;
-        }
-
-        public IProcessDefinitionBuilder<TKey> Integrate(ProcessModuleDefinition<TKey> data)
-        {
-            _executionDefinition.ModuleDefinitions.Add(data);
+            _processModuleDefinition.Name = name;
+            _processModuleDefinition.Description = description;
+            _processModuleDefinition.Concurrent = concurrent;
 
             return this;
         }
 
-        public ProcessDefinition<TKey> Build()
-        {
-            return _executionDefinition;
-        }
-
-        public IEnumerable<ProcessDefinition<TKey>> BuildAll()
+        public IEnumerable<ProcessDefinition<TKey>> Build()
         {
             TryAddCurrentElement();
 
@@ -73,10 +67,20 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
 
         private void TryAddCurrentElement()
         {
+            TryAddCurrentModule();
+
             if (_executionDefinition != null)
-            {
                 _executionDefinitionCollection.Add(_executionDefinition);
-            }
+
+            _executionDefinition = null;
+        }
+
+        private void TryAddCurrentModule()
+        {
+            if (_processModuleDefinition != null)
+                _executionDefinition.ModuleDefinitions.Add(_processModuleDefinition);
+
+            _processModuleDefinition = null;
         }
 
     }

@@ -29,7 +29,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
 
         public ICollection<ErrorMessage> Errors { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public IEnumerable<ProcessDefinition<TKey>> Build() => _processDefinitionBuilder.BuildAll();
+        public IEnumerable<ProcessDefinition<TKey>> Build() => _processDefinitionBuilder.Build();
 
     }
 }

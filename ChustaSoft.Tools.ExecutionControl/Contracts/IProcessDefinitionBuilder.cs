@@ -10,7 +10,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Contracts
 
         IProcessDefinitionBuilder<TKey> SetType(ExecutionType type);
 
-        IProcessModuleDefinitionBuilder<TKey> AddModule(string name, string description);
+        IProcessDefinitionBuilder<TKey> AddModule(string name, string description, bool concurrent = false);
 
     }
 }
