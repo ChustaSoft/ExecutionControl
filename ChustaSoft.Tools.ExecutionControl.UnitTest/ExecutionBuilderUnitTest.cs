@@ -1,3 +1,4 @@
+using ChustaSoft.Common.Exceptions;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -151,7 +152,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         }
 
         [TestMethod]
-        public void Given_CreatedDefinitions_When_AddModuleMultipleTimes_Then_DefinitionsWithModulesReturned()
+        public void Given_CreatedDefinitions_When_FullTest_Then_DefinitionsReturned()
         {
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
@@ -186,5 +187,62 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             Assert.AreEqual(secondElementCreated.ModuleDefinitions.Count(), 2);
         }
 
+        [TestMethod]
+        public void Given_CreatedDefinitions_When_FullTestEnumTyped_Then_DefinitionsEnumTypedReturned()
+        {
+            string testDescription = "TestDescription", testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
+            var type = ExecutionType.Automatic;
+            var builder = new ExecutionBuilder<TestEnum, Guid>();
+
+            builder.Generate(c =>
+            {
+                c.New(TestEnum.Test1, testDescription + 1).SetType(type)
+                    .AddModule(testNameModule + 1, testDescriptionModule + 1)
+                    .AddModule(testNameModule + 1, testDescriptionModule + 1);
+
+                c.New(TestEnum.Test2, testDescription + 2).SetType(type)
+                    .AddModule(testNameModule + 2, testDescriptionModule + 2)
+                    .AddModule(testNameModule + 2, testDescriptionModule + 2);
+            });
+
+            var result = builder.Build();
+            var firstElementCreated = result.ToArray()[0];
+            var secondElementCreated = result.ToArray()[1];
+
+            Assert.AreEqual(result.Count(), 2);
+
+            Assert.AreEqual(firstElementCreated.Name, TestEnum.Test1.ToString());
+            Assert.AreEqual(firstElementCreated.Description, testDescription + 1);
+            Assert.AreEqual(firstElementCreated.Type, type);
+            Assert.AreEqual(firstElementCreated.ModuleDefinitions.Count(), 2);
+
+            Assert.AreEqual(secondElementCreated.Name, TestEnum.Test2.ToString());
+            Assert.AreEqual(secondElementCreated.Description, testDescription + 2);
+            Assert.AreEqual(secondElementCreated.Type, type);
+            Assert.AreEqual(secondElementCreated.ModuleDefinitions.Count(), 2);
+        }
+
+        [TestMethod]
+        public void Given_CreatedDefinitions_WhenTestNotAllEnumTyped_Then_ErrorAdded()
+        {
+            string testDescription = "TestDescription", testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
+            var type = ExecutionType.Automatic;
+            var builder = new ExecutionBuilder<TestEnum, Guid>();
+
+            builder.Generate(c =>
+            {
+                c.New(TestEnum.Test1, testDescription + 1).SetType(type)
+                    .AddModule(testNameModule + 1, testDescriptionModule + 1)
+                    .AddModule(testNameModule + 1, testDescriptionModule + 1);
+            });
+
+            Assert.AreEqual(builder.Errors.Count(), 1);
+        }
+
+    }
+
+    public enum TestEnum
+    {
+        Test1, Test2
     }
 }

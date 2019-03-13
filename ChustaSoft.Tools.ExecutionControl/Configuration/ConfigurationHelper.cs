@@ -2,6 +2,7 @@
 using ChustaSoft.Tools.ExecutionControl.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 
 namespace ChustaSoft.Tools.ExecutionControl.Configuration
@@ -21,6 +22,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
             services.AddDbContext<ExecutionControlContext>(options => options.UseSqlServer(connectionString));
 
             return services;
+        }
+
+        public static void WithDefinitions<TToolConfiguration, TKey, TEnum>(this IServiceCollection services, TToolConfiguration toolConfiguration) where TToolConfiguration : ExecutionControlConfigurationBase<TKey, TEnum> where TEnum : struct, IConvertible
+        {
+            services.AddSingleton<ExecutionControlConfigurationBase<TKey, TEnum>>(toolConfiguration);
         }
 
         public static void WithDefinitions<TToolConfiguration, TKey>(this IServiceCollection services, TToolConfiguration toolConfiguration) where TToolConfiguration : ExecutionControlConfigurationBase<TKey>

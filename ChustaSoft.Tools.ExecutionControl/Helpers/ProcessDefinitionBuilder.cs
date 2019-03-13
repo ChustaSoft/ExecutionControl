@@ -3,6 +3,7 @@ using ChustaSoft.Common.Utilities;
 using ChustaSoft.Tools.ExecutionControl.Contracts;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,6 +48,19 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
             _executionDefinition = new ProcessDefinition<TKey>
             {
                 Name = name,
+                Description = description
+            };
+
+            return this;
+        }
+
+        public IProcessDefinitionBuilder<TKey> New<TEnum>(TEnum enumType, string description) where TEnum : struct, IConvertible
+        {
+            TryAddCurrentElement();
+
+            _executionDefinition = new ProcessDefinition<TKey>
+            {
+                Name = enumType.ToString(),
                 Description = description
             };
 
@@ -106,4 +120,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
         #endregion
 
     }
+
+
+    public class ProcessDefinitionBuilder<TEnum, TKey> : ProcessDefinitionBuilder<TKey> { }
+
 }
