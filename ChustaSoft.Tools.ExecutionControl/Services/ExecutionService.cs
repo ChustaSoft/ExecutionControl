@@ -48,6 +48,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             }
         }
 
+
         private void PerformAbortExecution(Execution<TKey> execution)
         {
             var executionId = _executionBusiness.Abort(execution.ProcessDefinitionId);
@@ -59,7 +60,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         {
             _executionBusiness.Block(execution);
 
-            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Aborted, $"Process blocked because another process is still running");
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Blocked, $"Process blocked because another process is still running");
         }
 
         private Execution<TKey> PerformExecutionAttempt(TProcessEnum processName)
