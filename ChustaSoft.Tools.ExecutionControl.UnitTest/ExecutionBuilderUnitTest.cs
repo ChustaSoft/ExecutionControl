@@ -1,4 +1,3 @@
-using ChustaSoft.Common.Exceptions;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +15,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         public void Given_Builder_When_CreateDefinition_Then_DefinitionReturned()
         {
             string testName = "TestName", testDescription = "TestDescription";
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -36,7 +35,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         {
             string testName = "TestName", testDescription = "TestDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -58,7 +57,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -81,7 +80,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -105,7 +104,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -130,7 +129,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -157,7 +156,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             string testName = "TestName", testDescription = "TestDescription";
             string testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<Guid>();
+            var builder = new ExecutionDefinitionBuilder<Guid>();
 
             builder.Generate(c =>
             {
@@ -192,7 +191,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         {
             string testDescription = "TestDescription", testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<TestEnum, Guid>();
+            var builder = new ExecutionDefinitionBuilder<TestEnum, Guid>();
 
             builder.Generate(c =>
             {
@@ -227,7 +226,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         {
             string testDescription = "TestDescription", testNameModule = "ModuleName", testDescriptionModule = "ModuleDescription";
             var type = ExecutionType.Automatic;
-            var builder = new ExecutionBuilder<TestEnum, Guid>();
+            var builder = new ExecutionDefinitionBuilder<TestEnum, Guid>();
 
             builder.Generate(c =>
             {

@@ -12,7 +12,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Contracts
 
         internal IEnumerable<ProcessDefinition<TKey>> GetConfigurations()
         {
-            var builder = new ExecutionBuilder<TKey>();
+            var builder = new ExecutionDefinitionBuilder<TKey>();
 
             DefineExecutions(builder);
 
@@ -20,7 +20,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Contracts
         }
 
 
-        public abstract void DefineExecutions(IExecutionBuilder<TKey> builder);
+        public abstract void DefineExecutions(IExecutionDefinitionBuilder<TKey> builder);
 
     }
 
@@ -30,7 +30,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Contracts
 
         internal IEnumerable<ProcessDefinition<TKey>> GetConfigurations()
         {
-            var builder = new ExecutionBuilder<TEnum, TKey>();
+            var builder = new ExecutionDefinitionBuilder<TEnum, TKey>();
 
             DefineExecutions(builder);
 
@@ -38,7 +38,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Contracts
         }
 
 
-        public abstract void DefineExecutions(IExecutionBuilder<TEnum, TKey> builder);
+        public abstract void DefineExecutions(IExecutionDefinitionBuilder<TEnum, TKey> builder);
 
     }
 

@@ -24,7 +24,17 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
         #region Properties
 
+        public DbSet<Execution<TKey>> Executions { get; set; }
+
+        public DbSet<ExecutionEvent<TKey>> ExecutionEvents { get; set; }
+
+        public DbSet<ExecutionModule<TKey>> ExecutionModules { get; set; }
+
+        public DbSet<ExecutionModuleEvent<TKey>> ExecutionModuleEvents { get; set; }
+
         public DbSet<ProcessDefinition<TKey>> ProcessDefinitions { get; set; }
+
+        public DbSet<ProcessModuleDefinition<TKey>> ProcessModuleDefinitions { get; set; }
 
         #endregion
 

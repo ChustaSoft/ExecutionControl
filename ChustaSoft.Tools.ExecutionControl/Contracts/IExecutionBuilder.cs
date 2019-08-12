@@ -1,23 +1,16 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Helpers;
+﻿using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
 
 
 namespace ChustaSoft.Tools.ExecutionControl.Contracts
 {
-
-    public interface IExecutionBuilder<TKey>
+    public interface IExecutionBuilder
     {
 
-        ExecutionBuilder<TKey> Generate(Action<ProcessDefinitionBuilder<TKey>> definitionBuilder);
+        Execution<TKey> GetNew<TKey>(TKey definitionId, string server);
+
+        void Finish<TKey>(Execution<TKey> execution, ExecutionStatus status, ExecutionResult? result);
 
     }
-
-
-    public interface IExecutionBuilder<TEnum, TKey> : IExecutionBuilder<TKey> where TEnum : struct, IConvertible
-    {
-
-        ExecutionBuilder<TKey> Generate(Action<ProcessDefinitionBuilder<TEnum, TKey>> definitionBuilder);
-
-    }
-
 }
