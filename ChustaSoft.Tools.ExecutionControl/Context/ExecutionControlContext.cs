@@ -7,7 +7,7 @@ using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Context
 {
-    public class ExecutionControlContext<TKey> : DbContext
+    public class ExecutionControlContext<TKey> : DbContext where TKey : IComparable
     {
 
         #region Constants
@@ -53,9 +53,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
                 entity.ToTable(EXECUTION_TABLENAME, SCHEMA_NAME);
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                entity.Property(e => e._BeginContext).HasColumnName("BeginContext").HasMaxLength(MAX_VARCHAR_LENGTH);
-                entity.Property(e => e._EndContext).HasColumnName("EndContext").HasMaxLength(MAX_VARCHAR_LENGTH);
-
+                
                 entity.Property(e => e.Status).HasConversion(
                     dtoValue => dtoValue.ToString(),
                     entityValue => EnumsHelper.GetByString<ExecutionStatus>(entityValue)

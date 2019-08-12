@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Migrations\" />
     <Folder Include="Entities\" />
   </ItemGroup>

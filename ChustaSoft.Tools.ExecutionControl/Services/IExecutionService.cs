@@ -1,6 +1,8 @@
-﻿namespace ChustaSoft.Tools.ExecutionControl.Services
+﻿using System;
+
+namespace ChustaSoft.Tools.ExecutionControl.Services
 {
-    public interface IExecutionService
+    public interface IExecutionService<TKey, TProcessEnum> where TProcessEnum : struct, IConvertible
     {
     }
 }

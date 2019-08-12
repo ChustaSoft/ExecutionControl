@@ -7,13 +7,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Entities
     {
 
         public TKey Id { get; set; }
-
         public string Name { get; set; }
-
         public string Description { get; set; }
-
         public bool Active { get; set; }
-
 
         public ICollection<Execution<TKey>> Executions { get; set; }
 
@@ -24,5 +20,4 @@ namespace ChustaSoft.Tools.ExecutionControl.Entities
         }
 
     }
-
 }
