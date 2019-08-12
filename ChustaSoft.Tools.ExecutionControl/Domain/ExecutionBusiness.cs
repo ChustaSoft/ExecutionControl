@@ -1,9 +1,10 @@
-﻿using System;
-using ChustaSoft.Tools.ExecutionControl.Entities;
+﻿using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using ChustaSoft.Tools.ExecutionControl.Repositories;
+using System;
 
-namespace ChustaSoft.Tools.ExecutionControl.Model
+namespace ChustaSoft.Tools.ExecutionControl.Domain
 {
     public class ExecutionBusiness<TKey> : IExecutionBusiness<TKey> where TKey : IComparable
     {
@@ -40,31 +41,31 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
             return execution;
         }
 
-        public void Abort(TKey processDefinitionId)
+        public TKey Abort(TKey processDefinitionId)
         {
             var previousExecution = _executionRepository.GetLastBlocked(processDefinitionId);
 
-            previousExecution.EndDate = DateTime.UtcNow;
-            previousExecution.Status = ExecutionStatus.Aborted;
-            previousExecution.Result = ExecutionResult.Error;
+            PerformUpdate(previousExecution, ExecutionStatus.Aborted, ExecutionResult.Error);
 
-            _executionRepository.Update(previousExecution);
+            return previousExecution.Id;
         }
 
-        public void Block(Execution<TKey> execution)
+        public TKey Block(Execution<TKey> execution)
         {
-            execution.EndDate = DateTime.UtcNow;
-            execution.Status = ExecutionStatus.Blocked;
-            execution.Result = ExecutionResult.Warning;
+            PerformUpdate(execution, ExecutionStatus.Blocked, ExecutionResult.Warning);
 
             _executionRepository.Update(execution);
+
+            return execution.Id;
         }
 
-        public void Complete(Execution<TKey> execution, ExecutionResult result)
+        public TKey Complete(Execution<TKey> execution, ExecutionResult result)
         {
-            execution.EndDate = DateTime.UtcNow;
-            execution.Result = result;
-            execution.Status = ExecutionStatus.Finished;
+            PerformUpdate(execution, ExecutionStatus.Finished, result);
+
+            _executionRepository.Update(execution);
+
+            return execution.Id;
         }
 
         public ExecutionAvailability IsAllowed(Execution<TKey> execution)
@@ -82,6 +83,15 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
 
         private bool ProcessMustBeAborted(Execution<TKey> lastExecution)
             => lastExecution?.BeginDate < DateTime.UtcNow.AddMinutes(-1 * _configuration.MinutesToAbort);
-        
+
+        private void PerformUpdate(Execution<TKey> previousExecution, ExecutionStatus status, ExecutionResult result)
+        {
+            previousExecution.EndDate = DateTime.UtcNow;
+            previousExecution.Status = status;
+            previousExecution.Result = result;
+
+            _executionRepository.Update(previousExecution);
+        }
+
     }
 }

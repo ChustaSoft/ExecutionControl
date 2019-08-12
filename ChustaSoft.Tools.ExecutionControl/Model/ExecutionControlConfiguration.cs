@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChustaSoft.Tools.ExecutionControl.Model
+﻿namespace ChustaSoft.Tools.ExecutionControl.Model
 {
     public class ExecutionControlConfiguration
     {

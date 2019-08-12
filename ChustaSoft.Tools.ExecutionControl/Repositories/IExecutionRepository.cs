@@ -9,8 +9,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
 
         Execution<TKey> GetLastCompleted(TKey processDefinitionId);
 
-        void Save(Execution<TKey> execution);
+        bool Save(Execution<TKey> execution);
 
-        void Update(Execution<TKey> previousExecution);
+        bool Update(Execution<TKey> previousExecution);
     }
 }

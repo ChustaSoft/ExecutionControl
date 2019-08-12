@@ -29,18 +29,18 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
                .FirstOrDefault();
         }
 
-        public void Save(Execution<TKey> execution)
+        public bool Save(Execution<TKey> execution)
         {
             _dbContext.Executions.Add(execution);
 
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChanges() > 0;
         }
 
-        public void Update(Execution<TKey> execution)
+        public bool Update(Execution<TKey> execution)
         {
             _dbContext.Executions.Update(execution);
 
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChanges() > 0;
         }
 
     }

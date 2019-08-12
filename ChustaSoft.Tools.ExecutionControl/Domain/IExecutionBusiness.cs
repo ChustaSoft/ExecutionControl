@@ -2,18 +2,18 @@
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using System;
 
-namespace ChustaSoft.Tools.ExecutionControl.Model
+namespace ChustaSoft.Tools.ExecutionControl.Domain
 {
     public interface IExecutionBusiness<TKey> where TKey : IComparable
     {
 
         Execution<TKey> Register(string processName);
 
-        void Abort(TKey processDefinitionId);
+        TKey Abort(TKey processDefinitionId);
 
-        void Block(Execution<TKey> execution);
+        TKey Block(Execution<TKey> execution);
 
-        void Complete(Execution<TKey> execution, ExecutionResult result);
+        TKey Complete(Execution<TKey> execution, ExecutionResult result);
 
         ExecutionAvailability IsAllowed(Execution<TKey> execution);
 

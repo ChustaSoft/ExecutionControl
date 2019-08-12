@@ -1,5 +1,7 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Entities;
+﻿using ChustaSoft.Tools.ExecutionControl.Domain;
+using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Exceptions;
 using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
 using System.Threading.Tasks;
@@ -11,37 +13,65 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         where TProcessEnum : struct, IConvertible 
     {
 
+        private readonly ExecutionControlConfiguration _executionControlConfiguration;
+
         private readonly IExecutionBusiness<TKey> _executionBusiness;
+        private readonly IExecutionEventBusiness<TKey> _executionEventBusiness;
 
 
-        public ExecutionService(IExecutionBusiness<TKey> executionBusiness)
+        public ExecutionService(ExecutionControlConfiguration executionControlConfiguration, IExecutionBusiness<TKey> executionBusiness, IExecutionEventBusiness<TKey> executionEventBusiness)
         {
+            _executionControlConfiguration = executionControlConfiguration;
+
             _executionBusiness = executionBusiness;
+            _executionEventBusiness = executionEventBusiness;
         }
 
 
         public void Execute<T>(TProcessEnum processName, Func<T> process)
         {
-            var execution = _executionBusiness.Register(processName.ToString());
+            var execution = PerformExecutionAttempt(processName);
             var availability = _executionBusiness.IsAllowed(execution);
 
             switch (availability)
             {
                 case ExecutionAvailability.Abort:
-                    _executionBusiness.Abort(execution.ProcessDefinitionId);
+                    PerformAbortExecution(execution);
                     break;
                 case ExecutionAvailability.Block:
-                    _executionBusiness.Block(execution);
+                    PerformBlockExecution(execution);
                     break;
 
                 default:
-                    PerformExecution(process, execution);
+                    PerformStartExecution(process, execution);
                     break;
             }
         }
 
+        private void PerformAbortExecution(Execution<TKey> execution)
+        {
+            var executionId = _executionBusiness.Abort(execution.ProcessDefinitionId);
 
-        private void PerformExecution<T>(Func<T> process, Execution<TKey> execution)
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Aborted, $"Process aborted due to timeout exceeded: {_executionControlConfiguration.MinutesToAbort}");
+        }
+
+        private void PerformBlockExecution(Execution<TKey> execution)
+        {
+            _executionBusiness.Block(execution);
+
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Aborted, $"Process blocked because another process is still running");
+        }
+
+        private Execution<TKey> PerformExecutionAttempt(TProcessEnum processName)
+        {
+            var execution = _executionBusiness.Register(processName.ToString());
+
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Waiting, "Process created waiting for execution");
+
+            return execution;
+        }
+
+        private void PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
         {
             var processTask = new Task(() => process());
             processTask.RunSynchronously();
@@ -51,7 +81,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
                 case TaskStatus.Canceled:
                 case TaskStatus.Faulted:
                     _executionBusiness.Complete(execution, ExecutionResult.Error);
-                    break;
+                    throw new ProcessExecutionException("Process execution failed", processTask.Exception);
 
                 default:
                     _executionBusiness.Complete(execution, ExecutionResult.Success);
