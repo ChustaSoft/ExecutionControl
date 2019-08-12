@@ -60,6 +60,13 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
             _executionRepository.Update(execution);
         }
 
+        public void Complete(Execution<TKey> execution, ExecutionResult result)
+        {
+            execution.EndDate = DateTime.UtcNow;
+            execution.Result = result;
+            execution.Status = ExecutionStatus.Finished;
+        }
+
         public ExecutionAvailability IsAllowed(Execution<TKey> execution)
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution.ProcessDefinitionId);

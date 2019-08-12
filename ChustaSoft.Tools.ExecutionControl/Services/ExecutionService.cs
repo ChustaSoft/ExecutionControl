@@ -1,4 +1,6 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Model;
+﻿using ChustaSoft.Tools.ExecutionControl.Entities;
+using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
 using System.Threading.Tasks;
 
@@ -10,7 +12,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
     {
 
         private readonly IExecutionBusiness<TKey> _executionBusiness;
-        
+
+
         public ExecutionService(IExecutionBusiness<TKey> executionBusiness)
         {
             _executionBusiness = executionBusiness;
@@ -24,10 +27,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
             switch (availability)
             {
-                case Enums.ExecutionAvailability.Abort:
+                case ExecutionAvailability.Abort:
                     _executionBusiness.Abort(execution.ProcessDefinitionId);
                     break;
-                case Enums.ExecutionAvailability.Block:
+                case ExecutionAvailability.Block:
                     _executionBusiness.Block(execution);
                     break;
 
@@ -38,20 +41,20 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         }
 
 
-        private void PerformExecution<T>(Func<T> process, object execution)
+        private void PerformExecution<T>(Func<T> process, Execution<TKey> execution)
         {
-            var tmpTaskToExecute = new Task(() => process());
-            tmpTaskToExecute.RunSynchronously();
+            var processTask = new Task(() => process());
+            processTask.RunSynchronously();
 
-            switch (tmpTaskToExecute.Status)
+            switch (processTask.Status)
             {
                 case TaskStatus.Canceled:
                 case TaskStatus.Faulted:
-                    //PerformUnsuccessfulEnd(process, tmpLastRun, "Error executing Synchronously task");
-                    //throw new ProcessExecutionException("Error executing Synchronously task", tmpTaskToExecute.Exception);
+                    _executionBusiness.Complete(execution, ExecutionResult.Error);
+                    break;
 
                 default:
-                    //PerformSuccessfulEnd(process, tmpLastRun, "Error executing Synchronously task");
+                    _executionBusiness.Complete(execution, ExecutionResult.Success);
                     break;
 
             }

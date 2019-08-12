@@ -13,6 +13,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
 
         void Block(Execution<TKey> execution);
 
+        void Complete(Execution<TKey> execution, ExecutionResult result);
+
         ExecutionAvailability IsAllowed(Execution<TKey> execution);
 
     }
