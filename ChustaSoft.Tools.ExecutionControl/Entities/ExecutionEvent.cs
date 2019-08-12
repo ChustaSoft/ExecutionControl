@@ -1,7 +1,7 @@
 ﻿using ChustaSoft.Tools.ExecutionControl.Enums;
+using System;
 
-
-namespace ChustaSoft.Tools.ExecutionControl.Model
+namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
     public class ExecutionEvent<TKey>
     {
@@ -9,6 +9,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
         public TKey Id { get; set; }
 
         public TKey ExecutionId { get; set; }
+
+        public DateTime Date { get; set; }
 
         public string Summary { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
-using ChustaSoft.Tools.ExecutionControl.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 

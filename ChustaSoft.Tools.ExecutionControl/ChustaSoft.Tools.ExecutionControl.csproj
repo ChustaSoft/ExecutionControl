@@ -27,13 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Enums\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Model\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>

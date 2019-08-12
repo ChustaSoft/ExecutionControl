@@ -8,7 +8,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
 
         public static void RegisterExecutionControl<TKey>(this IServiceCollection services, string connectionString)
         {
-            
+
         }
 
 

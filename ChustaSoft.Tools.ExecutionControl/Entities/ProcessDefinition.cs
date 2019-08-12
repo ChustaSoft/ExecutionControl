@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ChustaSoft.Tools.ExecutionControl.Model
+namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
     public class ProcessDefinition<TKey>
     {
@@ -24,4 +24,5 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
         }
 
     }
+
 }
