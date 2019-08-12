@@ -15,7 +15,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
         public ExecutionStatus Status { get; set; }
 
 
-        public Execution<TKey> Execution { get; set; }
+        public Execution<TKey> Execution  { get; set; }
 
     }
 }

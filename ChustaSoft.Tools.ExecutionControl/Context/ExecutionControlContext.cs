@@ -1,4 +1,6 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Model;
+﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -19,6 +21,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
         private const string PROCESSDEFINITION_TABLENAME = "ProcessDefinitions";
         private const string PROCESSMODULEDEFINITION_TABLENAME = "ProcessModuleDefinitions";
 
+        private const int MAX_VARCHAR_LENGTH = 500;
+
         #endregion
 
 
@@ -28,13 +32,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
         public DbSet<ExecutionEvent<TKey>> ExecutionEvents { get; set; }
 
-        public DbSet<ExecutionModule<TKey>> ExecutionModules { get; set; }
-
-        public DbSet<ExecutionModuleEvent<TKey>> ExecutionModuleEvents { get; set; }
-
         public DbSet<ProcessDefinition<TKey>> ProcessDefinitions { get; set; }
-
-        public DbSet<ProcessModuleDefinition<TKey>> ProcessModuleDefinitions { get; set; }
 
         #endregion
 
@@ -55,6 +53,17 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
                 entity.ToTable(EXECUTION_TABLENAME, SCHEMA_NAME);
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e._BeginContext).HasColumnName("BeginContext").HasMaxLength(MAX_VARCHAR_LENGTH);
+                entity.Property(e => e._EndContext).HasColumnName("EndContext").HasMaxLength(MAX_VARCHAR_LENGTH);
+
+                entity.Property(e => e.Status).HasConversion(
+                    dtoValue => dtoValue.ToString(),
+                    entityValue => EnumsHelper.GetByString<ExecutionStatus>(entityValue)
+                );
+                entity.Property(e => e.Result).HasConversion(
+                    dtoValue => dtoValue.ToString(),
+                    entityValue => EnumsHelper.GetByString<ExecutionResult>(entityValue)
+                );
 
                 entity.HasOne(e => e.ProcessDefinition).WithMany(n => n.Executions).HasForeignKey(e => e.ProcessDefinitionId);
             });
@@ -65,44 +74,20 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
+                entity.Property(e => e.Status).HasConversion(
+                    dtoValue => dtoValue.ToString(),
+                    entityValue => EnumsHelper.GetByString<ExecutionStatus>(entityValue)
+                );
+
                 entity.HasOne(e => e.Execution).WithMany(n => n.ExecutionEvents).HasForeignKey(e => e.ExecutionId);
             });
-
-            modelBuilder.Entity<ExecutionModule<TKey>>(entity =>
-            {
-                entity.ToTable(EXECUTIONMODULE_TABLENAME, SCHEMA_NAME);
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
-                entity.HasOne(e => e.Execution).WithMany(n => n.ExecutionModules).HasForeignKey(e => e.ExecutionId);
-                entity.HasOne(e => e.ModuleDefinition).WithMany(n => n.ExecutionModules).HasForeignKey(e => e.ModuleDefinitionId);
-            });
-
-            modelBuilder.Entity<ExecutionModuleEvent<TKey>>(entity =>
-            {
-                entity.ToTable(EXECUTIONMODULEEVENT_TABLENAME, SCHEMA_NAME);
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
-                entity.HasOne(e => e.ExecutionModule).WithMany(n => n.ExecutionModuleEvents).HasForeignKey(e => e.ExecutionModuleId);
-            });
-
+          
             modelBuilder.Entity<ProcessDefinition<TKey>>(entity =>
             {
                 entity.ToTable(PROCESSDEFINITION_TABLENAME, SCHEMA_NAME);
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasIndex(e => e.Name).IsUnique();
-            });
-
-            modelBuilder.Entity<ProcessModuleDefinition<TKey>>(entity =>
-            {
-                entity.ToTable(PROCESSMODULEDEFINITION_TABLENAME, SCHEMA_NAME);
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                entity.HasIndex(e => e.Name).IsUnique();
-
-                entity.HasOne(e => e.ProcessDefinition).WithMany(pd => pd.ModuleDefinitions).HasForeignKey(e => e.ProcessDefinitionId);
             });
 
         }

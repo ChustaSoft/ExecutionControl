@@ -2,6 +2,7 @@
 {
     public enum ExecutionResult
     {
+        Unknown = 0,
         Success,
         Warning,
         Error

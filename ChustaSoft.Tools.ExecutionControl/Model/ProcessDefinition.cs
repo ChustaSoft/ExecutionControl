@@ -1,7 +1,5 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
 
 namespace ChustaSoft.Tools.ExecutionControl.Model
 {
@@ -14,20 +12,15 @@ namespace ChustaSoft.Tools.ExecutionControl.Model
 
         public string Description { get; set; }
 
-        public ExecutionType Type { get; set; }
-
         public bool Active { get; set; }
 
 
         public ICollection<Execution<TKey>> Executions { get; set; }
 
-        public ICollection<ProcessModuleDefinition<TKey>> ModuleDefinitions { get; set; }
-
 
         public ProcessDefinition()
         {
             Executions = Enumerable.Empty<Execution<TKey>>().ToList();
-            ModuleDefinitions = Enumerable.Empty<ProcessModuleDefinition<TKey>>().ToList();
         }
 
     }
