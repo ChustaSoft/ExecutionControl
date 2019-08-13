@@ -37,21 +37,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
         #endregion
 
 
-        //#region Constructors
+        #region Constructors
 
-        //public ExecutionControlContext(DbContextOptions<ExecutionControlContext<TKey>> options) : base(options) { }
+        public ExecutionControlContext(DbContextOptions<ExecutionControlContext<TKey>> options) : base(options) { }
 
-        //#endregion
-
-        public ExecutionControlContext()
-        {
-
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=XELIT3-PC\X3SQLSERVER;Initial Catalog=ExecutionControl;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        }
+        #endregion
 
 
         #region Protected methods
@@ -108,9 +98,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
     public class ExecutionControlContext : ExecutionControlContext<Guid>
     {
 
-        public ExecutionControlContext() : base() { }
-
-        //public ExecutionControlContext(DbContextOptions<ExecutionControlContext<Guid>> options) : base(options) { }
+        public ExecutionControlContext(DbContextOptions<ExecutionControlContext<Guid>> options) : base(options) { }
 
     }
 
