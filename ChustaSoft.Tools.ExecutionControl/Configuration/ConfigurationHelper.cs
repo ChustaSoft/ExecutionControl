@@ -1,16 +1,36 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
+﻿using ChustaSoft.Tools.ExecutionControl.Context;
+using ChustaSoft.Tools.ExecutionControl.Domain;
+using ChustaSoft.Tools.ExecutionControl.Repositories;
+using ChustaSoft.Tools.ExecutionControl.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Configuration
 {
     public static class ConfigurationHelper
     {
 
-        public static void RegisterExecutionControl<TKey>(this IServiceCollection services, string connectionString)
+        private const int DEFAULT_ABORT_PROCESS_TIMEOUT = 60;
+
+
+        public static void RegisterExecutionControl<TKey, TProcessEnum>(this IServiceCollection services, string connectionString, int minutesToAbort = DEFAULT_ABORT_PROCESS_TIMEOUT)
+            where TKey : IComparable
+            where TProcessEnum : struct, IConvertible
         {
+            services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseSqlServer(connectionString));
 
+            services.AddSingleton(new ExecutionControlConfiguration { });
+
+            services.AddTransient<IExecutionRepository<TKey>, ExecutionRepository<TKey>>();
+            services.AddTransient<IExecutionEventRepository<TKey>, ExecutionEventRepository<TKey>>();
+            services.AddTransient<IProcessDefinitionRepository<TKey>, ProcessDefinitionRepository<TKey>>();
+
+            services.AddTransient<IExecutionBusiness<TKey>, ExecutionBusiness<TKey>>();
+            services.AddTransient<IExecutionEventBusiness<TKey>, ExecutionEventBusiness<TKey>>();
+
+            services.AddTransient<IExecutionService<TKey, TProcessEnum>, ExecutionService<TKey, TProcessEnum>>();
         }
-
 
     }
 }

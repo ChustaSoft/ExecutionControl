@@ -1,6 +1,6 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Entities;
+﻿using ChustaSoft.Tools.ExecutionControl.Configuration;
+using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
-using ChustaSoft.Tools.ExecutionControl.Model;
 using ChustaSoft.Tools.ExecutionControl.Repositories;
 using System;
 

@@ -1,8 +1,8 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Domain;
+﻿using ChustaSoft.Tools.ExecutionControl.Configuration;
+using ChustaSoft.Tools.ExecutionControl.Domain;
 using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Exceptions;
-using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
 using System.Threading.Tasks;
 
@@ -35,11 +35,12 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
             switch (availability)
             {
-                case ExecutionAvailability.Abort:
-                    PerformAbortExecution(execution);
-                    break;
                 case ExecutionAvailability.Block:
                     PerformBlockExecution(execution);
+                    break;
+                case ExecutionAvailability.Abort:
+                    PerformAbortExecution(execution);
+                    PerformStartExecution(process, execution);
                     break;
 
                 default:
@@ -87,8 +88,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
                 default:
                     _executionBusiness.Complete(execution, ExecutionResult.Success);
                     break;
-
             }
         }
+
     }
 }
