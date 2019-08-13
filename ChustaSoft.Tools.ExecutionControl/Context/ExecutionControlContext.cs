@@ -94,12 +94,4 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
     }
 
-
-    public class ExecutionControlContext : ExecutionControlContext<Guid>
-    {
-
-        public ExecutionControlContext(DbContextOptions<ExecutionControlContext<Guid>> options) : base(options) { }
-
-    }
-
 }
