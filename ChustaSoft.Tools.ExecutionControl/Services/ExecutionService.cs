@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace ChustaSoft.Tools.ExecutionControl.Services
 {
     public class ExecutionService<TKey, TProcessEnum> : IExecutionService<TKey, TProcessEnum> 
-        where TKey : IComparable
-        where TProcessEnum : struct, IConvertible 
+            where TKey : IComparable
+            where TProcessEnum : struct, IConvertible 
     {
 
         private readonly ExecutionControlConfiguration _executionControlConfiguration;
