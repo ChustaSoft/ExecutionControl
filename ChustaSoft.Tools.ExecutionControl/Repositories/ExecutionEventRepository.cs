@@ -7,7 +7,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
     public class ExecutionEventRepository<TKey> : RepositoryBase<TKey>, IExecutionEventRepository<TKey> where TKey : IComparable
     {
 
-        protected ExecutionEventRepository(ExecutionControlContext<TKey> dbContext)
+        public ExecutionEventRepository(ExecutionControlContext<TKey> dbContext)
            : base(dbContext)
         { }
 
