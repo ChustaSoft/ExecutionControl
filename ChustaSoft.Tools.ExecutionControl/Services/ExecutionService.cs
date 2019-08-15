@@ -75,18 +75,32 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         private void PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
         {
-            var processTask = new Task(() => process());
-            processTask.RunSynchronously();
+            Task processTask = RunProcess(process, execution);
+            FinishProcess(execution, processTask);
+        }
 
+        private Task RunProcess<T>(Func<T> process, Execution<TKey> execution)
+        {
+            var processTask = new Task(() => process());
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Running, $"Process execution in progress");
+
+            processTask.RunSynchronously();
+            return processTask;
+        }
+
+        private void FinishProcess(Execution<TKey> execution, Task processTask)
+        {
             switch (processTask.Status)
             {
                 case TaskStatus.Canceled:
                 case TaskStatus.Faulted:
                     _executionBusiness.Complete(execution, ExecutionResult.Error);
+                    _executionEventBusiness.Create(execution.Id, ExecutionStatus.Finished, $"Process finished with errors: {processTask.Exception?.Message ?? string.Empty}");
                     throw new ProcessExecutionException("Process execution failed", processTask.Exception);
 
                 default:
                     _executionBusiness.Complete(execution, ExecutionResult.Success);
+                    _executionEventBusiness.Create(execution.Id, ExecutionStatus.Finished, "Process finished without errors");
                     break;
             }
         }
