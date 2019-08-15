@@ -9,7 +9,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
     public class ProcessDefinitionRepository<TKey> : RepositoryBase<TKey>, IProcessDefinitionRepository<TKey> where TKey : IComparable
     {
 
-        protected ProcessDefinitionRepository(ExecutionControlContext<TKey> dbContext)
+        public ProcessDefinitionRepository(ExecutionControlContext<TKey> dbContext)
             : base(dbContext)
         { }
 
