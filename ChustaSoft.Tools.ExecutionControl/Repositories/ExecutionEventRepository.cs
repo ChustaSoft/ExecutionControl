@@ -14,7 +14,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
 
         public bool Create(ExecutionEvent<TKey> executionEvent)
         {
-            _dbContext.Add(executionEvent);
+            _dbContext.ExecutionEvents.Add(executionEvent);
 
             return _dbContext.SaveChanges() > 0;
         }

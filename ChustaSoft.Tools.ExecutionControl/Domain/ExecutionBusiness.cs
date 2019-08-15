@@ -72,7 +72,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution.ProcessDefinitionId);
 
-            if (lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted)
+            if (lastExecution == null || lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted)
                 return ExecutionAvailability.Available;
             else if (ProcessMustBeAborted(lastExecution))
                 return ExecutionAvailability.Abort;

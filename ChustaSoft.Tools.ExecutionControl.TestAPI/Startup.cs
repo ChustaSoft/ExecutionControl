@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChustaSoft.Tools.ExecutionControl.Configuration;
+using ChustaSoft.Tools.ExecutionControl.Context;
 using ChustaSoft.Tools.ExecutionControl.TestAPI.Enums;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,12 +32,14 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ExecutionControlContext<Guid> context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.ConfigureExecutionControl(context);
 
             app.UseMvc();
         }

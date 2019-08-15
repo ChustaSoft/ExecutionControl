@@ -17,12 +17,12 @@ namespace ChustaSoft.Tools.ExecutionControl.Entities
         public string Host { get; set; }
 
         public ProcessDefinition<TKey> ProcessDefinition { get; set; }
-        public IEnumerable<ExecutionEvent<TKey>> ExecutionEvents { get; set; }
+        public ICollection<ExecutionEvent<TKey>> ExecutionEvents { get; set; }
 
 
         public Execution()
         {
-            ExecutionEvents = Enumerable.Empty<ExecutionEvent<TKey>>();
+            ExecutionEvents = Enumerable.Empty<ExecutionEvent<TKey>>().ToList();
         }
 
     }
