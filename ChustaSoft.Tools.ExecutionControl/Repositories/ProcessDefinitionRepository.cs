@@ -26,5 +26,19 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
                 .ToList();
         }
 
+        public bool Save(ProcessDefinition<TKey> processDefinition)
+        {
+            _dbContext.Add(processDefinition);
+
+            return _dbContext.SaveChanges() > 0;
+        }
+
+        public bool Update(ProcessDefinition<TKey> processDefinition)
+        {
+            _dbContext.Update(processDefinition);
+
+            return _dbContext.SaveChanges() > 0;
+        }
+
     }
 }
