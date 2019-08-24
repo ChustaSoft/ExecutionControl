@@ -35,13 +35,36 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
 
             services.AddTransient<IExecutionBusiness<TKey>, ExecutionBusiness<TKey>>();
             services.AddTransient<IExecutionEventBusiness<TKey>, ExecutionEventBusiness<TKey>>();
+            services.AddTransient<IProcessDefinitionBusiness<TKey, TProcessEnum>, ProcessDefinitionBusiness<TKey, TProcessEnum>>();
 
             services.AddTransient<IExecutionService<TKey, TProcessEnum>, ExecutionService<TKey, TProcessEnum>>();
         }
 
-        public static void ConfigureExecutionControl(this IApplicationBuilder app, ExecutionControlContext<Guid> executionControlContext)
+        public static void ConfigureExecutionControl(this IApplicationBuilder app, IServiceProvider serviceProvider)
         {
-            executionControlContext.Database.Migrate();
+            ConfigureDatabase(serviceProvider);
+        }
+
+        public static void ConfigureExecutionControl<TProcessEnum>(this IApplicationBuilder app, IServiceProvider serviceProvider)
+                where TProcessEnum : struct, IConvertible
+        {
+            ConfigureDatabase(serviceProvider);
+            ConfigureDefinitions<TProcessEnum>(serviceProvider);
+        }
+
+
+        private static void ConfigureDefinitions<TProcessEnum>(IServiceProvider serviceProvider) where TProcessEnum : struct, IConvertible
+        {
+            var processDefinitionBusiness = serviceProvider.GetRequiredService<IProcessDefinitionBusiness<Guid, TProcessEnum>>();
+
+            processDefinitionBusiness.Setup();
+        }
+
+        private static void ConfigureDatabase(IServiceProvider serviceProvider)
+        {
+            var databaseContext = serviceProvider.GetRequiredService<ExecutionControlContext<Guid>>();
+
+            databaseContext.Database.Migrate();
         }
 
     }
