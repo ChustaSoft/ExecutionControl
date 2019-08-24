@@ -9,5 +9,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         IEnumerable<ProcessDefinition<TKey>> GetAll();
 
         ProcessDefinition<TKey> Get(string processName);
+
+        bool Save(ProcessDefinition<TKey> processDefinition);
+
+        bool Update(ProcessDefinition<TKey> processDefinition);
+
     }
 }

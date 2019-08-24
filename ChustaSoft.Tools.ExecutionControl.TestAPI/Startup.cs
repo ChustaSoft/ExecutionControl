@@ -26,13 +26,12 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI
             services.RegisterExecutionControl<ProcessExamplesEnum>(Configuration.GetConnectionString("Connection"), 1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ExecutionControlContext<Guid> context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            
 
-            app.ConfigureExecutionControl(context);
+            app.ConfigureExecutionControl<ProcessExamplesEnum>(serviceProvider);
             app.UseMvc();
         }
     }
