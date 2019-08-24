@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
-    public class Execution<TKey>
+    public class Execution<TKey> where TKey : IComparable
     {
 
         public TKey Id { get; set; }

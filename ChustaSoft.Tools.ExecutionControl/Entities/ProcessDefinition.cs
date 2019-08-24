@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
-    public class ProcessDefinition<TKey>
+    public class ProcessDefinition<TKey> where TKey : IComparable
     {
 
         public TKey Id { get; set; }

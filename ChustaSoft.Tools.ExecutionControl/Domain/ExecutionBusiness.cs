@@ -41,9 +41,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             return execution;
         }
 
-        public TKey Abort(TKey processDefinitionId)
+        public TKey Abort(Execution<TKey> execution)
         {
-            var previousExecution = _executionRepository.GetLastBlocked(processDefinitionId);
+            var previousExecution = _executionRepository.GetLastDead(execution);
 
             PerformUpdate(previousExecution, ExecutionStatus.Aborted, ExecutionResult.Error);
 
@@ -70,7 +70,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
         public ExecutionAvailability IsAllowed(Execution<TKey> execution)
         {
-            var lastExecution = _executionRepository.GetLastCompleted(execution.ProcessDefinitionId);
+            var lastExecution = _executionRepository.GetLastCompleted(execution);
 
             if (lastExecution == null || lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted)
                 return ExecutionAvailability.Available;

@@ -9,9 +9,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
         Execution<TKey> Register(string processName);
 
-        TKey Abort(TKey processDefinitionId);
+        TKey Abort(Execution<TKey> currentExecution);
 
-        TKey Block(Execution<TKey> execution);
+        TKey Block(Execution<TKey> currentExecution);
 
         TKey Complete(Execution<TKey> execution, ExecutionResult result);
 
