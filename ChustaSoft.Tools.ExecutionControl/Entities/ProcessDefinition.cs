@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
-    public class ProcessDefinition<TKey> where TKey : IComparable
+    public class ProcessDefinition<TKey> : IEquatable<ProcessDefinition<TKey>> where TKey : IComparable
     {
 
         public TKey Id { get; set; }
@@ -19,6 +19,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Entities
         {
             Executions = Enumerable.Empty<Execution<TKey>>().ToList();
         }
+
+
+        public bool Equals(ProcessDefinition<TKey> other) => other.Name.Equals(this.Name);
 
     }
 }
