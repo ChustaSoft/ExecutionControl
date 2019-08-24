@@ -52,7 +52,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         private void PerformAbortExecution(Execution<TKey> execution)
         {
-            var executionId = _executionBusiness.Abort(execution.ProcessDefinitionId);
+            var executionId = _executionBusiness.Abort(execution);
 
             _executionEventBusiness.Create(execution.Id, ExecutionStatus.Aborted, $"Process aborted due to timeout exceeded: {_executionControlConfiguration.MinutesToAbort}");
         }

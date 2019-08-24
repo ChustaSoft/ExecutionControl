@@ -3,7 +3,7 @@ using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Entities
 {
-    public class ExecutionEvent<TKey>
+    public class ExecutionEvent<TKey> where TKey : IComparable
     {
 
         public TKey Id { get; set; }

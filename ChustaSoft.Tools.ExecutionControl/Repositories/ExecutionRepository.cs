@@ -13,18 +13,18 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         { }
 
 
-        public Execution<TKey> GetLastBlocked(TKey processDefinitionId)
+        public Execution<TKey> GetLastDead(Execution<TKey> currentExecution)
         {
             return _dbContext.Executions
-               .Where(x => x.ProcessDefinitionId.Equals(processDefinitionId)  && (x.Status == Enums.ExecutionStatus.Waiting || x.Status == Enums.ExecutionStatus.Running))
+               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && (x.Status == Enums.ExecutionStatus.Waiting || x.Status == Enums.ExecutionStatus.Running))
                .OrderByDescending(x => x.BeginDate)
                .First();
         }
 
-        public Execution<TKey> GetLastCompleted(TKey processDefinitionId)
+        public Execution<TKey> GetLastCompleted(Execution<TKey> currentExecution)
         {
             return _dbContext.Executions
-               .Where(x => x.ProcessDefinitionId.Equals(processDefinitionId) && x.Status != Enums.ExecutionStatus.Waiting && x.Status != Enums.ExecutionStatus.Aborted)
+               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Aborted)
                .OrderByDescending(x => x.BeginDate)
                .FirstOrDefault();
         }

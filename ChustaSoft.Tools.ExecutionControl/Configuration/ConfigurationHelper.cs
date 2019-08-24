@@ -27,7 +27,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
         {
             services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseSqlServer(connectionString));
 
-            services.AddSingleton(new ExecutionControlConfiguration { });
+            services.AddSingleton(new ExecutionControlConfiguration { MinutesToAbort = minutesToAbort });
 
             services.AddTransient<IExecutionRepository<TKey>, ExecutionRepository<TKey>>();
             services.AddTransient<IExecutionEventRepository<TKey>, ExecutionEventRepository<TKey>>();

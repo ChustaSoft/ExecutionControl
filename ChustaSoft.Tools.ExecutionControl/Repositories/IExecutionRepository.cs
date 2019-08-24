@@ -5,9 +5,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
 {
     public interface IExecutionRepository<TKey> where TKey : IComparable
     {
-        Execution<TKey> GetLastBlocked(TKey processDefinitionId);
+        Execution<TKey> GetLastDead(Execution<TKey> currentExecution);
 
-        Execution<TKey> GetLastCompleted(TKey processDefinitionId);
+        Execution<TKey> GetLastCompleted(Execution<TKey> currentExecution);
 
         bool Save(Execution<TKey> execution);
 
