@@ -7,7 +7,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             where TProcessEnum : struct, IConvertible
     {
 
-        void Execute<T>(TProcessEnum processName, Func<T> process);
+        TKey Execute<T>(TProcessEnum processName, Func<T> process);
 
     }
 }

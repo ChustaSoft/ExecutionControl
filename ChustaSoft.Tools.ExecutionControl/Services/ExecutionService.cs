@@ -28,7 +28,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         }
 
 
-        public void Execute<T>(TProcessEnum processName, Func<T> process)
+        public TKey Execute<T>(TProcessEnum processName, Func<T> process)
         {
             var execution = PerformExecutionAttempt(processName);
             var availability = _executionBusiness.IsAllowed(execution);
@@ -47,6 +47,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
                     PerformStartExecution(process, execution);
                     break;
             }
+            return execution.Id;
         }
 
 
@@ -75,20 +76,21 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         private void PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
         {
-            Task processTask = RunProcess(process, execution);
+            var processTask = RunProcess(process, execution);
+
             FinishProcess(execution, processTask);
         }
 
-        private Task RunProcess<T>(Func<T> process, Execution<TKey> execution)
+        private Task<T> RunProcess<T>(Func<T> process, Execution<TKey> execution)
         {
-            var processTask = new Task(() => process());
+            var processTask = new Task<T>(() => process());
             _executionEventBusiness.Create(execution.Id, ExecutionStatus.Running, $"Process execution in progress");
 
             processTask.RunSynchronously();
             return processTask;
         }
 
-        private void FinishProcess(Execution<TKey> execution, Task processTask)
+        private T FinishProcess<T>(Execution<TKey> execution, Task<T> processTask)
         {
             switch (processTask.Status)
             {
@@ -103,6 +105,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
                     _executionEventBusiness.Create(execution.Id, ExecutionStatus.Finished, "Process finished without errors");
                     break;
             }
+
+            return processTask.Result;
         }
 
     }

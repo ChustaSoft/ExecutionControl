@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Tools.ExecutionControl.Context;
 using ChustaSoft.Tools.ExecutionControl.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -12,6 +13,13 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
             : base(dbContext)
         { }
 
+
+        public Execution<TKey> GetLast<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible
+        {
+            return _dbContext.Executions.Include(x => x.ExecutionEvents).Include(x => x.ProcessDefinition)
+                .OrderByDescending(x => x.BeginDate)
+                .First(x => x.ProcessDefinition.Name == process.ToString());
+        }
 
         public Execution<TKey> GetLastDead(Execution<TKey> currentExecution)
         {
