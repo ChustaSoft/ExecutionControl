@@ -33,7 +33,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,10 +44,12 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Entities\" />
-    <Folder Include="Model\" />
 
     <Compile Update="Services\ExecutionService.cs">
       <DependentUpon>IExecutionService.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Services\ReportingService.cs">
+      <DependentUpon>IReportingService.cs</DependentUpon>
     </Compile>
 
     <Compile Update="Domain\ExecutionBusiness.cs">
@@ -56,6 +57,12 @@
     </Compile>
     <Compile Update="Domain\ExecutionEventBusiness.cs">
       <DependentUpon>IExecutionEventBusiness.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Domain\ProcessDefinitionBusiness.cs">
+      <DependentUpon>IProcessDefinitionBusiness.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Domain\ProcessExecutionSummaryBusiness.cs">
+      <DependentUpon>IProcessExecutionSummaryBusiness.cs</DependentUpon>
     </Compile>
 
     <Compile Update="Repositories\ExecutionRepository.cs">
