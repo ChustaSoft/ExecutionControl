@@ -84,10 +84,18 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         private Task<T> RunProcess<T>(Func<T> process, Execution<TKey> execution)
         {
             var processTask = new Task<T>(() => process());
-            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Running, $"Process execution in progress");
+
+            PerformStartRegistration(execution);
 
             processTask.RunSynchronously();
+
             return processTask;
+        }
+
+        private void PerformStartRegistration(Execution<TKey> execution)
+        {
+            _executionBusiness.Start(execution);
+            _executionEventBusiness.Create(execution.Id, ExecutionStatus.Running, $"Process execution in progress");
         }
 
         private T FinishProcess<T>(Execution<TKey> execution, Task<T> processTask)

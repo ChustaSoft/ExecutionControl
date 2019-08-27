@@ -41,6 +41,15 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             return execution;
         }
 
+        public TKey Start(Execution<TKey> execution)
+        {
+            execution.Status = ExecutionStatus.Running;
+
+            _executionRepository.Update(execution);
+
+            return execution.Id;
+        }
+
         public TKey Abort(Execution<TKey> execution)
         {
             var previousExecution = _executionRepository.GetLastDead(execution);
