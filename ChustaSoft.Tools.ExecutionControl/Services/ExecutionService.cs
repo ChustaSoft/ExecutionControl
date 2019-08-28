@@ -28,7 +28,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         }
 
 
-        public TKey Execute<T>(TProcessEnum processName, Func<T> process)
+        public T Execute<T>(TProcessEnum processName, Func<T> process)
         {
             var execution = PerformExecutionAttempt(processName);
             var availability = _executionBusiness.IsAllowed(execution);
@@ -37,17 +37,14 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             {
                 case ExecutionAvailability.Block:
                     PerformBlockExecution(execution);
-                    break;
+                    return default(T);
                 case ExecutionAvailability.Abort:
                     PerformAbortExecution(execution);
-                    PerformStartExecution(process, execution);
-                    break;
+                    return PerformStartExecution(process, execution);
 
                 default:
-                    PerformStartExecution(process, execution);
-                    break;
+                    return PerformStartExecution(process, execution);
             }
-            return execution.Id;
         }
 
 
@@ -74,11 +71,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             return execution;
         }
 
-        private void PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
+        private T PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
         {
             var processTask = RunProcess(process, execution);
 
-            FinishProcess(execution, processTask);
+            return FinishProcess(execution, processTask);
         }
 
         private Task<T> RunProcess<T>(Func<T> process, Execution<TKey> execution)
