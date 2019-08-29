@@ -13,11 +13,13 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
     {
 
         private readonly IExecutionService<Guid, ProcessExamplesEnum> executionService;
+        private readonly IReportingService<Guid> reportingService;
 
 
-        public ProcessController(IExecutionService<Guid, ProcessExamplesEnum> executionService)
+        public ProcessController(IExecutionService<Guid, ProcessExamplesEnum> executionService, IReportingService<Guid> reportingService)
         {
             this.executionService = executionService;
+            this.reportingService = reportingService;
         }
 
 
@@ -32,6 +34,9 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
 
         public bool TestMethod()
         {
+            var allData = reportingService.Daily(DateTime.Now);
+            var processData = reportingService.Daily(ProcessExamplesEnum.Process1, DateTime.Now);
+
             return true;
         }
 

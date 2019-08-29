@@ -2,6 +2,7 @@
 using ChustaSoft.Tools.ExecutionControl.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Repositories
@@ -13,6 +14,22 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
             : base(dbContext)
         { }
 
+
+        public IEnumerable<Execution<TKey>> GetDaily(DateTime day)
+        {
+            return _dbContext.Executions.Include(x => x.ExecutionEvents).Include(x => x.ProcessDefinition)
+                .Where(x => x.BeginDate.DayOfYear == day.DayOfYear && x.BeginDate.Year == day.Year)
+                .OrderByDescending(x => x.BeginDate)
+                .ToList();
+        }
+
+        public IEnumerable<Execution<TKey>> GetDaily<TProcessEnum>(TProcessEnum process, DateTime day) where TProcessEnum : struct, IConvertible
+        {
+            return _dbContext.Executions.Include(x => x.ExecutionEvents).Include(x => x.ProcessDefinition)
+                .Where(x => x.ProcessDefinition.Name == process.ToString() && x.BeginDate.DayOfYear == day.DayOfYear && x.BeginDate.Year == day.Year)
+                .OrderByDescending(x => x.BeginDate)
+                .ToList();
+        }
 
         public Execution<TKey> GetLast<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible
         {
@@ -32,7 +49,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         public Execution<TKey> GetLastCompleted(Execution<TKey> currentExecution)
         {
             return _dbContext.Executions
-               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Aborted)
+               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Aborted && x.Status != Enums.ExecutionStatus.Blocked)
                .OrderByDescending(x => x.BeginDate)
                .FirstOrDefault();
         }

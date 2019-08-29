@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Enums
+namespace ChustaSoft.Tools.ExecutionControl.UnitTest
 {
     public enum TestUndefinedProcesses
     {
