@@ -11,14 +11,24 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             where TProcessEnum : struct, IConvertible
     {
 
+        #region Fields
+
         private readonly IProcessDefinitionRepository<TKey> _processDefinitionRepository;
 
+        #endregion
+
+
+        #region Constructor
 
         public ProcessDefinitionBusiness(IProcessDefinitionRepository<TKey> processDefinitionRepository)
         {
             _processDefinitionRepository = processDefinitionRepository;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public void Setup()
         {
@@ -29,6 +39,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             CreateNewDefinitions(createdDefinitions);
         }
 
+        #endregion
+
+
+        #region Private methods
 
         private void CreateNewDefinitions(ICollection<ProcessDefinition<TKey>> createdDefinitions)
         {
@@ -43,7 +57,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
                     ReActivateDefinition(createdDefinitions, definition);
                 else if (!createdDefinitions.Contains(definition))
                     DeprecateDefinition(definition);
-                else if(createdDefinitions.Contains(definition) && definition.Active)
+                else if (createdDefinitions.Contains(definition) && definition.Active)
                     RemoveExistingDefinition(createdDefinitions, definition);
         }
 
@@ -73,6 +87,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
             return builder.Definitions;
         }
+
+        #endregion
 
     }
 }

@@ -14,11 +14,17 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             where TProcessEnum : struct, IConvertible 
     {
 
+        #region Fields
+
         private readonly ExecutionControlConfiguration _executionControlConfiguration;
 
         private readonly IExecutionBusiness<TKey> _executionBusiness;
         private readonly IExecutionEventBusiness<TKey> _executionEventBusiness;
 
+        #endregion
+
+
+        #region Constructor
 
         public ExecutionService(ExecutionControlConfiguration executionControlConfiguration, IExecutionBusiness<TKey> executionBusiness, IExecutionEventBusiness<TKey> executionEventBusiness)
         {
@@ -28,6 +34,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             _executionEventBusiness = executionEventBusiness;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process)
         {
@@ -67,6 +77,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             }
         }
 
+        #endregion
+
+
+        #region Private methods
 
         private void PerformAbortExecution(Execution<TKey> execution)
         {
@@ -176,6 +190,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         private void ExecutionContext_Checkpoint(object sender, ExecutionEventArgs<TKey> args)
             => _executionEventBusiness.Create(args);
+
+        #endregion
 
     }
 }

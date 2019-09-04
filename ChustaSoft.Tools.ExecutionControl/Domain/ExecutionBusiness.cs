@@ -9,11 +9,17 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
     public class ExecutionBusiness<TKey> : IExecutionBusiness<TKey> where TKey : IComparable
     {
 
+        #region Fields
+
         private readonly ExecutionControlConfiguration _configuration;
 
         private readonly IProcessDefinitionRepository<TKey> _processDefinitionRepository;
         private readonly IExecutionRepository<TKey> _executionRepository;
-        
+
+        #endregion
+
+
+        #region Constructor
 
         public ExecutionBusiness(ExecutionControlConfiguration configuration, IProcessDefinitionRepository<TKey> processDefinitionRepository, IExecutionRepository<TKey> executionRepository) : base()
         {
@@ -23,6 +29,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             _executionRepository = executionRepository;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public Execution<TKey> Register(string processName)
         {
@@ -89,9 +99,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
                 return ExecutionAvailability.Block;
         }
 
+        #endregion
 
-        private bool ProcessMustBeAborted(Execution<TKey> lastExecution)
-            => lastExecution?.BeginDate < DateTime.UtcNow.AddMinutes(-1 * _configuration.MinutesToAbort);
+
+        #region Private methods
 
         private void PerformUpdate(Execution<TKey> previousExecution, ExecutionStatus status, ExecutionResult result)
         {
@@ -101,6 +112,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
             _executionRepository.Update(previousExecution);
         }
+
+        private bool ProcessMustBeAborted(Execution<TKey> lastExecution)
+            => lastExecution?.BeginDate < DateTime.UtcNow.AddMinutes(-1 * _configuration.MinutesToAbort);
+
+        #endregion
 
     }
 }

@@ -10,14 +10,24 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             where TKey : IComparable
     {
 
+        #region Fields
+
         private readonly IExecutionRepository<TKey> _executionRepository;
 
+        #endregion
+
+
+        #region Constructor
 
         public ProcessExecutionSummaryBusiness(IExecutionRepository<TKey> executionRepository)
         {
             _executionRepository = executionRepository;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public IEnumerable<ProcessExecutionSummary<TKey>> Daily(DateTime day)
         {
@@ -43,6 +53,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             return summary;
         }
 
+        #endregion
+
+
+        #region Private methods
 
         private ProcessExecutionSummary<TKey> CreateModel(Execution<TKey> lastExecution)
         {
@@ -72,6 +86,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             if (summary.EndDate != null)
                 summary.ExecutionInterval = (summary.EndDate - summary.BeginDate).Value.TotalMinutes;
         }
+
+        #endregion
 
     }
 }

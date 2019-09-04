@@ -93,5 +93,4 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
         #endregion
 
     }
-
 }

@@ -9,14 +9,24 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
     public class ExecutionEventBusiness<TKey> : IExecutionEventBusiness<TKey> where TKey : IComparable
     {
 
+        #region Fields
+
         private readonly IExecutionEventRepository<TKey> _executionEventRepository;
 
+        #endregion
+
+
+        #region Constructor
 
         public ExecutionEventBusiness(IExecutionEventRepository<TKey> executionEventRepository)
         {
             _executionEventRepository = executionEventRepository;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public bool Create(TKey executionId, ExecutionStatus status, string message)
         {
@@ -32,6 +42,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             return _executionEventRepository.Create(executionEvent);
         }
 
+        #endregion
+
+
+        #region Private methods
 
         private static ExecutionEvent<TKey> GenerateExecutionEvent(TKey executionId, ExecutionStatus status, string message)
             => new ExecutionEvent<TKey>()
@@ -41,6 +55,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
                 Status = status,
                 Summary = message
             };
+
+        #endregion
 
     }
 }
