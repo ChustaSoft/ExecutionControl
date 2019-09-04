@@ -8,14 +8,24 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
     public class ReportingService<TKey> : IReportingService<TKey> where TKey : IComparable
     {
 
+        #region Fields
+
         private readonly IProcessExecutionSummaryBusiness<TKey> _processExecutionSummaryBusiness;
 
+        #endregion
+
+
+        #region Constructor
 
         public ReportingService(IProcessExecutionSummaryBusiness<TKey> processExecutionSummaryBusiness)
         {
             _processExecutionSummaryBusiness = processExecutionSummaryBusiness;
         }
 
+        #endregion
+
+
+        #region Public methods
 
         public ProcessExecutionSummary<TKey> Last<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible
         {
@@ -37,6 +47,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
             return executionsSummary;
         }
+
+        #endregion
 
     }
 }

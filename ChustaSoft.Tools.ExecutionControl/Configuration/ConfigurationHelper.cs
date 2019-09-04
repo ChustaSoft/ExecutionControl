@@ -12,8 +12,14 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
     public static class ConfigurationHelper
     {
 
+        #region Constants
+
         private const int DEFAULT_ABORT_PROCESS_TIMEOUT = 60;
 
+        #endregion
+
+
+        #region Public methods
 
         public static void RegisterExecutionControl<TProcessEnum>(this IServiceCollection services, string connectionString, int minutesToAbort = DEFAULT_ABORT_PROCESS_TIMEOUT)
                 where TProcessEnum : struct, IConvertible
@@ -54,6 +60,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
             ConfigureDefinitions<TProcessEnum>(serviceProvider);
         }
 
+        #endregion
+
+
+        #region Private methods
 
         private static void ConfigureDefinitions<TProcessEnum>(IServiceProvider serviceProvider) where TProcessEnum : struct, IConvertible
         {
@@ -68,6 +78,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
 
             databaseContext.Database.Migrate();
         }
+
+        #endregion
 
     }
 }

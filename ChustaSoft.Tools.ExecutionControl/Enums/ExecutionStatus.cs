@@ -4,6 +4,7 @@
     {
         Waiting,
         Running,
+        Finishing,
         Finished,
         Aborted,
         Blocked
