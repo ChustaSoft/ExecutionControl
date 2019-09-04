@@ -3,6 +3,7 @@ using ChustaSoft.Tools.ExecutionControl.Domain;
 using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
 using ChustaSoft.Tools.ExecutionControl.Exceptions;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         }
 
 
-        public T Execute<T>(TProcessEnum processName, Func<T> process)
+        public TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process)
         {
             var execution = PerformExecutionAttempt(processName);
             var availability = _executionBusiness.IsAllowed(execution);
@@ -37,7 +38,26 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             {
                 case ExecutionAvailability.Block:
                     PerformBlockExecution(execution);
-                    return default(T);
+                    return default(TResult);
+                case ExecutionAvailability.Abort:
+                    PerformAbortExecution(execution);
+                    return PerformStartExecution(process, execution);
+
+                default:
+                    return PerformStartExecution(process, execution);
+            }
+        }
+
+        public TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
+        {
+            var execution = PerformExecutionAttempt(processName);
+            var availability = _executionBusiness.IsAllowed(execution);
+
+            switch (availability)
+            {
+                case ExecutionAvailability.Block:
+                    PerformBlockExecution(execution);
+                    return default(TResult);
                 case ExecutionAvailability.Abort:
                     PerformAbortExecution(execution);
                     return PerformStartExecution(process, execution);
@@ -71,22 +91,62 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             return execution;
         }
 
-        private T PerformStartExecution<T>(Func<T> process, Execution<TKey> execution)
+        private TResult PerformStartExecution<TResult>(Func<TResult> process, Execution<TKey> execution)
         {
             var processTask = RunProcess(process, execution);
 
             return FinishProcess(execution, processTask);
         }
 
-        private Task<T> RunProcess<T>(Func<T> process, Execution<TKey> execution)
+        private TResult PerformStartExecution<TResult>(Func<ExecutionContext<TKey>, TResult> process, Execution<TKey> execution)
         {
-            var processTask = new Task<T>(() => process());
+            var processTask = RunProcess(process, execution);
+
+            return FinishProcess(execution, processTask);
+        }
+
+        private Task<TResult> RunProcess<TResult>(Func<TResult> process, Execution<TKey> execution)
+        {
+            var processTask = GetTask(process);
 
             PerformStartRegistration(execution);
 
             processTask.RunSynchronously();
 
             return processTask;
+        }
+
+        private Task<TResult> RunProcess<TResult>(Func<ExecutionContext<TKey>, TResult> process, Execution<TKey> execution)
+        {
+            var processTask = GetTask(process, execution);
+
+            PerformStartRegistration(execution);
+
+            processTask.RunSynchronously();
+
+            return processTask;
+        }
+
+        private Task<TResult> GetTask<TResult>(Func<TResult> process)
+        {
+            return new Task<TResult>(() => process());
+        }
+
+        private Task<TResult> GetTask<TResult>(Func<ExecutionContext<TKey>, TResult> process, Execution<TKey> execution)
+        {
+            var executionContext = CreateManagedContext(execution);
+            var processTask = new Task<TResult>(() => process(executionContext));
+
+            return processTask;
+        }
+
+        private ExecutionContext<TKey> CreateManagedContext(Execution<TKey> execution)
+        {
+            var executionContext = new ExecutionContext<TKey>(execution.Id);
+
+            executionContext.Checkpoint += ExecutionContext_Checkpoint;
+
+            return executionContext;
         }
 
         private void PerformStartRegistration(Execution<TKey> execution)
@@ -113,6 +173,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
             return processTask.Result;
         }
+
+        private void ExecutionContext_Checkpoint(object sender, ExecutionEventArgs<TKey> args)
+            => _executionEventBusiness.Create(args);
 
     }
 }

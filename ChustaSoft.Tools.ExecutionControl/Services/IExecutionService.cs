@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChustaSoft.Tools.ExecutionControl.Model;
+using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Services
 {
@@ -7,7 +8,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
             where TProcessEnum : struct, IConvertible
     {
 
-        T Execute<T>(TProcessEnum processName, Func<T> process);
+        TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process);
+
+        TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Tools.ExecutionControl.Services;
+﻿using ChustaSoft.Tools.ExecutionControl.Model;
+using ChustaSoft.Tools.ExecutionControl.Services;
 using ChustaSoft.Tools.ExecutionControl.TestAPI.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,8 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
         {
             executionService.Execute(ProcessExamplesEnum.Process1, () => TestMethod());
 
+            executionService.Execute(ProcessExamplesEnum.Process2, (ec) => TestMethodContext(ec));
+
             return Ok();
         }
 
@@ -36,6 +39,14 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
         {
             var allData = reportingService.Daily(DateTime.Now);
             var processData = reportingService.Daily(ProcessExamplesEnum.Process1, DateTime.Now);
+
+            return true;
+        }
+
+        public bool TestMethodContext(ExecutionContext<Guid> executionContext)
+        {
+            executionContext.AddCheckpoint("Test checkpoint");
+            executionContext.AddEndSummary("Test process finished overall summary");
 
             return true;
         }
