@@ -49,7 +49,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         public Execution<TKey> GetLastCompleted(Execution<TKey> currentExecution)
         {
             return _dbContext.Executions
-               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Aborted && x.Status != Enums.ExecutionStatus.Blocked)
+               .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Blocked)
                .OrderByDescending(x => x.BeginDate)
                .FirstOrDefault();
         }

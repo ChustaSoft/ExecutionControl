@@ -17,7 +17,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         public ProcessDefinition<TKey> Get(string processName)
         {
             return _dbContext.ProcessDefinitions
-                .FirstOrDefault(x => x.Name == processName);
+                .First(x => x.Name == processName);
         }
 
         public IEnumerable<ProcessDefinition<TKey>> GetAll()
