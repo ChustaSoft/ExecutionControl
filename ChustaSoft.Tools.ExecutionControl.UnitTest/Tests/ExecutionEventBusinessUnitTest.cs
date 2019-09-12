@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Tools.ExecutionControl.Domain;
 using ChustaSoft.Tools.ExecutionControl.Entities;
 using ChustaSoft.Tools.ExecutionControl.Enums;
+using ChustaSoft.Tools.ExecutionControl.Model;
 using ChustaSoft.Tools.ExecutionControl.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -13,6 +14,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
     {
 
         private static IExecutionEventBusiness<Guid> ServiceUnderTest;
+
 
         [TestInitialize]
         public void TestInitialize()
@@ -28,6 +30,14 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         public void Given_ExecutionIdAndStatusAndMessage_When_Create_Then_TrueRetrived()
         {
             Assert.IsTrue(ServiceUnderTest.Create(Guid.NewGuid(), ExecutionStatus.Aborted, ""));
+        }
+
+        [TestMethod]
+        public void Given_ExecutionEventArgsFilled_When_Create_Then_TrueRetrived()
+        {
+            var testExecutionEventArgs = new ExecutionEventArgs<Guid> { ExecutionId = Guid.NewGuid(), Message = "Test msg", Status = ExecutionStatus.Finishing };
+
+            Assert.IsTrue(ServiceUnderTest.Create(testExecutionEventArgs));
         }
 
     }
