@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ChustaSoft.Tools.ExecutionControl.Migrations
 {
-    public partial class ExecutionControl_InitialDbCreation : Migration
+    public partial class ChustaSoftExecutionControl_InitialDbCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

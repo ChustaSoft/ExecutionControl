@@ -91,7 +91,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution);
 
-            if (lastExecution == null || lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted)
+            if (ProcessCouldRun(lastExecution))
                 return ExecutionAvailability.Available;
             else if (ProcessMustBeAborted(lastExecution))
                 return ExecutionAvailability.Abort;
@@ -112,6 +112,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
             _executionRepository.Update(previousExecution);
         }
+
+        private bool ProcessCouldRun(Execution<TKey> lastExecution)
+            => lastExecution == null || lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted;
 
         private bool ProcessMustBeAborted(Execution<TKey> lastExecution)
             => lastExecution?.BeginDate < DateTime.UtcNow.AddMinutes(-1 * _configuration.MinutesToAbort);
