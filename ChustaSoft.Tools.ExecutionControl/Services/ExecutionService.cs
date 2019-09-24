@@ -41,46 +41,64 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         public TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process)
         {
-            var execution = PerformExecutionAttempt(processName);
-            var availability = _executionBusiness.IsAllowed(execution);
-
-            switch (availability)
-            {
-                case ExecutionAvailability.Block:
-                    PerformBlockExecution(execution);
-                    return default(TResult);
-                case ExecutionAvailability.Abort:
-                    PerformAbortExecution(execution);
-                    return PerformStartExecution(process, execution);
-
-                default:
-                    return PerformStartExecution(process, execution);
-            }
+            return Task.Factory
+                .StartNew(() => PerformStartAttempt(processName))
+                .ContinueWith(task => PerformExecute(task.Result, process))
+                .Result;
         }
 
         public TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
         {
-            var execution = PerformExecutionAttempt(processName);
-            var availability = _executionBusiness.IsAllowed(execution);
-
-            switch (availability)
-            {
-                case ExecutionAvailability.Block:
-                    PerformBlockExecution(execution);
-                    return default(TResult);
-                case ExecutionAvailability.Abort:
-                    PerformAbortExecution(execution);
-                    return PerformStartExecution(process, execution);
-
-                default:
-                    return PerformStartExecution(process, execution);
-            }
+            return Task.Factory
+                .StartNew(() => PerformStartAttempt(processName))
+                .ContinueWith(task => PerformExecute(task.Result, process))
+                .Result;
         }
 
         #endregion
 
 
         #region Private methods
+
+        private (Execution<TKey> Execution, ExecutionAvailability Availability) PerformStartAttempt(TProcessEnum processName)
+        {
+            var execution = PerformExecutionAttempt(processName);
+            var availability = _executionBusiness.IsAllowed(execution);
+
+            return (execution, availability);
+        }
+
+        private TResult PerformExecute<TResult>((Execution<TKey> Execution, ExecutionAvailability Availability) startAttempt, Func<TResult> process)
+        {
+            switch (startAttempt.Availability)
+            {
+                case ExecutionAvailability.Block:
+                    PerformBlockExecution(startAttempt.Execution);
+                    return default(TResult);
+                case ExecutionAvailability.Abort:
+                    PerformAbortExecution(startAttempt.Execution);
+                    return PerformStartExecution(process, startAttempt.Execution);
+
+                default:
+                    return PerformStartExecution(process, startAttempt.Execution);
+            }
+        }
+
+        private TResult PerformExecute<TResult>((Execution<TKey> Execution, ExecutionAvailability Availability) startAttempt, Func<ExecutionContext<TKey>, TResult> process)
+        {
+            switch (startAttempt.Availability)
+            {
+                case ExecutionAvailability.Block:
+                    PerformBlockExecution(startAttempt.Execution);
+                    return default(TResult);
+                case ExecutionAvailability.Abort:
+                    PerformAbortExecution(startAttempt.Execution);
+                    return PerformStartExecution(process, startAttempt.Execution);
+
+                default:
+                    return PerformStartExecution(process, startAttempt.Execution);
+            }
+        }
 
         private void PerformAbortExecution(Execution<TKey> execution)
         {
