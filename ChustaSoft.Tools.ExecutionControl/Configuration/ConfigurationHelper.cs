@@ -44,8 +44,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
             services.AddTransient<IProcessDefinitionBusiness<TKey, TProcessEnum>, ProcessDefinitionBusiness<TKey, TProcessEnum>>();
             services.AddTransient<IProcessExecutionSummaryBusiness<TKey>, ProcessExecutionSummaryBusiness<TKey>>();
 
-            services.AddTransient<IExecutionService<TKey, TProcessEnum>, ExecutionService<TKey, TProcessEnum>>();
-            services.AddTransient<IReportingService<TKey>, ReportingService<TKey>>();
+            services.AddScoped<IExecutionService<TKey, TProcessEnum>, ExecutionService<TKey, TProcessEnum>>();
+            services.AddScoped<IReportingService<TKey>, ReportingService<TKey>>();
         }
 
         public static void ConfigureExecutionControl(this IApplicationBuilder app, IServiceProvider serviceProvider)
