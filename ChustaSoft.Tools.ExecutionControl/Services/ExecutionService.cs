@@ -88,6 +88,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         {
             switch (startAttempt.Availability)
             {
+                case ExecutionAvailability.Bypass:
+                    PerformBypassExecution(startAttempt.Execution);
+                    return PerformStartExecution(process, startAttempt.Execution);
                 case ExecutionAvailability.Block:
                     PerformBlockExecution(startAttempt.Execution);
                     return default(TResult);
@@ -98,6 +101,13 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
                 default:
                     return PerformStartExecution(process, startAttempt.Execution);
             }
+        }
+
+        private void PerformBypassExecution(Execution<TKey> execution)
+        {
+            var previousExecution = _executionBusiness.GetPrevious(execution.ProcessDefinition.GetEnumDefinition<TProcessEnum>());
+
+            _executionBusiness.Complete(previousExecution, ExecutionResult.Success);
         }
 
         private void PerformAbortExecution(Execution<TKey> execution)
@@ -116,7 +126,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
 
         private Execution<TKey> PerformExecutionAttempt(TProcessEnum processName)
         {
-            var execution = _executionBusiness.Register(processName.ToString());
+            var execution = _executionBusiness.Register(processName);
 
             _executionEventBusiness.Create(execution.Id, ExecutionStatus.Waiting, "Process created waiting for execution");
 

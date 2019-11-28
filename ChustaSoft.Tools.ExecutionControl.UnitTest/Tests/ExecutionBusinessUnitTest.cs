@@ -24,8 +24,8 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             var mockedConfiguration = new ExecutionControlConfiguration { MinutesToAbort = ABORT_MINUTES };
 
             var mockedProcessDefinitionRepository = new Mock<IProcessDefinitionRepository<Guid>>();
-            mockedProcessDefinitionRepository.Setup(m => m.Get(MockedProcessDefinition.Name)).Returns(MockedProcessDefinition);
-            mockedProcessDefinitionRepository.Setup(m => m.Get(string.Empty)).Throws<InvalidOperationException>();
+            mockedProcessDefinitionRepository.Setup(m => m.Get(MockedProcessDefinition.GetEnumDefinition<TestRightDefinitions>())).Returns(MockedProcessDefinition);
+            mockedProcessDefinitionRepository.Setup(m => m.Get(TestWrongDefinitions.TestWrongProcess)).Throws<InvalidOperationException>();
 
             var mockedExecutionRepository = new Mock<IExecutionRepository<Guid>>();
             mockedExecutionRepository.Setup(m => m.Save(It.IsAny<Execution<Guid>>())).Returns(true).Callback<Execution<Guid>>(e => e.Id = Guid.NewGuid());
@@ -45,7 +45,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
         {
             var testName = MockedProcessDefinition.Name;
 
-            var result = ServiceUnderTest.Register(testName);
+            var result = ServiceUnderTest.Register(TestRightDefinitions.TestRightProcess);
 
             Assert.IsTrue(result.BeginDate <= DateTime.UtcNow && result.BeginDate > DateTime.MinValue);
             Assert.IsTrue(result.Id != Guid.Empty);
@@ -58,7 +58,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
         [TestMethod]
         public void Given_UnexistingProcessName_When_Register_Then_ExceptionThrown()
         {
-            Assert.ThrowsException<InvalidOperationException>(() => ServiceUnderTest.Register(string.Empty));
+            Assert.ThrowsException<InvalidOperationException>(() => ServiceUnderTest.Register(TestWrongDefinitions.TestWrongProcess));
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             {
                 Id = Guid.Parse("05e42964-b138-41c8-99d8-fca4aec4861e"),
                 Active = true,
-                Name = "TestProcess",
+                Name = "TestRightProcess",
                 Description = "Test Description"
             };
 
@@ -217,5 +217,8 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
                 Id = Guid.Parse("05e42964-a138-41c8-99d8-fca4aec4860b")
             };
 
+        internal enum TestRightDefinitions { TestRightProcess }
+
+        internal enum TestWrongDefinitions { TestWrongProcess }
     }
 }

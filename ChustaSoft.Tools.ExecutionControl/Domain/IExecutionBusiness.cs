@@ -7,7 +7,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
     public interface IExecutionBusiness<TKey> where TKey : IComparable
     {
 
-        Execution<TKey> Register(string processName);
+        Execution<TKey> GetPrevious<TProcessEnum>(TProcessEnum processName) where TProcessEnum : struct, IConvertible;
+
+        Execution<TKey> Register<TProcessEnum>(TProcessEnum processName) where TProcessEnum : struct, IConvertible;
 
         TKey Start(Execution<TKey> currentExecution);
 

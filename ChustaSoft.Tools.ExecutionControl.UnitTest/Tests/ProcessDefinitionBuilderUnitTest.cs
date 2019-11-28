@@ -57,5 +57,19 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
             Assert.IsTrue(builder.Definitions.Any(x => expectedList.Contains(EnumsHelper.GetByDescription<TestUndefinedProcesses>(x.Description))));
         }
 
+        [TestMethod]
+        public void Given_EnumWithProcessDefinitionAttributes_When_Add_Then_AllProcessDefinitionWithNameDescriptionAndTypeCreated()
+        {
+            var builder = new ProcessDefinitionBuilder<int, TestExtraDefinedProcesses>();
+            var expectedList = EnumsHelper.GetEnumList<TestExtraDefinedProcesses>();
+            builder.Autogenerate();
+
+            Assert.AreEqual(builder.Count, expectedList.Count());
+            Assert.IsTrue(builder.Definitions.Any(x => expectedList.Contains(EnumsHelper.GetByString<TestExtraDefinedProcesses>(x.Name))));
+            Assert.IsTrue(builder.Definitions.Any(x => expectedList.Contains(EnumsHelper.GetByDescription<TestExtraDefinedProcesses>(x.Description))));
+            Assert.IsTrue(builder.Definitions.Any(x => x.Type == Enums.ProcessType.Background));
+            Assert.IsTrue(builder.Definitions.Any(x => x.Type == Enums.ProcessType.Batch));
+        }
+
     }
 }

@@ -6,7 +6,8 @@ using System.Linq;
 
 namespace ChustaSoft.Tools.ExecutionControl.Repositories
 {
-    public class ProcessDefinitionRepository<TKey> : RepositoryBase<TKey>, IProcessDefinitionRepository<TKey> where TKey : IComparable
+    public class ProcessDefinitionRepository<TKey> : RepositoryBase<TKey>, IProcessDefinitionRepository<TKey> 
+        where TKey : IComparable
     {
 
         public ProcessDefinitionRepository(ExecutionControlContext<TKey> dbContext)
@@ -14,10 +15,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
         { }
 
 
-        public ProcessDefinition<TKey> Get(string processName)
+        public ProcessDefinition<TKey> Get<TProcessEnum>(TProcessEnum processName) 
+            where TProcessEnum : struct, IConvertible
         {
             return _dbContext.ProcessDefinitions
-                .First(x => x.Name == processName);
+                .First(x => x.Name == processName.ToString());
         }
 
         public IEnumerable<ProcessDefinition<TKey>> GetAll()

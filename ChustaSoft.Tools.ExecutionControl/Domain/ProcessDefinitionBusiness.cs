@@ -30,6 +30,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
         #region Public methods
 
+        public ProcessDefinition<TKey> Get(TProcessEnum processEnum)
+        {
+            return _processDefinitionRepository.Get(processEnum);
+        }
+
         public void Setup()
         {
             var existingDefinitions = _processDefinitionRepository.GetAll();

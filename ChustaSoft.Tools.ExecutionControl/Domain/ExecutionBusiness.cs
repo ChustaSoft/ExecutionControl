@@ -34,7 +34,12 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
         #region Public methods
 
-        public Execution<TKey> Register(string processName)
+        public Execution<TKey> GetPrevious<TProcessEnum>(TProcessEnum processName) where TProcessEnum : struct, IConvertible
+        {
+            return _executionRepository.GetPrevious(processName);
+        }
+
+        public Execution<TKey> Register<TProcessEnum>(TProcessEnum processName) where TProcessEnum : struct, IConvertible
         {
             var definition = _processDefinitionRepository.Get(processName);
             var execution = new Execution<TKey>()
@@ -91,12 +96,14 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution);
 
-            if (ProcessCouldRun(lastExecution))
-                return ExecutionAvailability.Available;
-            else if (ProcessMustBeAborted(lastExecution))
-                return ExecutionAvailability.Abort;
-            else
-                return ExecutionAvailability.Block;
+                if (IsBackgroundProcess(lastExecution))
+                    return ExecutionAvailability.Bypass;
+                if (ProcessCouldRun(lastExecution))
+                    return ExecutionAvailability.Available;
+                else if (ProcessMustBeAborted(lastExecution))
+                    return ExecutionAvailability.Abort;
+                else
+                    return ExecutionAvailability.Block;
         }
 
         #endregion
@@ -104,20 +111,25 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
 
         #region Private methods
 
-        private void PerformUpdate(Execution<TKey> previousExecution, ExecutionStatus status, ExecutionResult result)
+        private void PerformUpdate(Execution<TKey> execution, ExecutionStatus status, ExecutionResult result)
         {
-            previousExecution.EndDate = DateTime.UtcNow;
-            previousExecution.Status = status;
-            previousExecution.Result = result;
+            execution.EndDate = DateTime.UtcNow;
+            execution.Status = status;
+            execution.Result = result;
 
-            _executionRepository.Update(previousExecution);
+            _executionRepository.Update(execution);
         }
 
         private bool ProcessCouldRun(Execution<TKey> lastExecution)
-            => lastExecution == null || lastExecution?.Status == ExecutionStatus.Finished || lastExecution?.Status == ExecutionStatus.Aborted;
+            => lastExecution == null 
+                || lastExecution?.Status == ExecutionStatus.Finished 
+                || lastExecution?.Status == ExecutionStatus.Aborted;
 
         private bool ProcessMustBeAborted(Execution<TKey> lastExecution)
             => lastExecution?.BeginDate < DateTime.UtcNow.AddMinutes(-1 * _configuration.MinutesToAbort);
+
+        private bool IsBackgroundProcess(Execution<TKey> lastExecution)
+            => lastExecution?.ProcessDefinition != null && lastExecution.ProcessDefinition.Type == ProcessType.Background;
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using ChustaSoft.Tools.ExecutionControl.Attributes;
+using ChustaSoft.Tools.ExecutionControl.Enums;
+using System.ComponentModel;
 
 namespace ChustaSoft.Tools.ExecutionControl.UnitTest
 {
@@ -18,4 +20,13 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest
         [Description("Execution Process 3")]
         Process3
     }
+
+    public enum TestExtraDefinedProcesses
+    {
+        [ProcessDefinition(ProcessType.Background, "Execution Process 1")]
+        Process1,
+        [ProcessDefinition(ProcessType.Batch, "Execution Process 1")]
+        Process2
+    }
+
 }
