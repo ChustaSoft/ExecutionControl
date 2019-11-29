@@ -96,7 +96,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution);
 
-                if (IsBackgroundProcess(lastExecution))
+                if (IsBackgroundProcess(execution))
                     return ExecutionAvailability.Bypass;
                 if (ProcessCouldRun(lastExecution))
                     return ExecutionAvailability.Available;

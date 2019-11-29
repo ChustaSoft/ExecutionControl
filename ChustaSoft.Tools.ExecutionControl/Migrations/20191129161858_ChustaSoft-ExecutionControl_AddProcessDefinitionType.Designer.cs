@@ -4,14 +4,16 @@ using ChustaSoft.Tools.ExecutionControl.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChustaSoft.Tools.ExecutionControl.Migrations
 {
     [DbContext(typeof(ExecutionControlContext<Guid>))]
-    partial class ExecutionControlContextModelSnapshot : ModelSnapshot
+    [Migration("20191129161858_ChustaSoft-ExecutionControl_AddProcessDefinitionType")]
+    partial class ChustaSoftExecutionControl_AddProcessDefinitionType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

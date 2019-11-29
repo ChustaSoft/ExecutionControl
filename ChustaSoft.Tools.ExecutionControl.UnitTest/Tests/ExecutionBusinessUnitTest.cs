@@ -143,6 +143,17 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             Assert.AreEqual(ExecutionAvailability.Abort, result);
         }
 
+        [TestMethod]
+        public void Given_ExecutionOfBackgroundProcess_When_IsAllowed_Then_AbortRetrived()
+        {
+            var testExecution = MockedBackgroundProcessExecution;
+
+            var result = ServiceUnderTest.IsAllowed(testExecution);
+
+            Assert.AreEqual(ExecutionAvailability.Bypass, result);
+        }
+
+
         internal static ProcessDefinition<Guid> MockedProcessDefinition
             => new ProcessDefinition<Guid>
             {
@@ -215,6 +226,16 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             => new Execution<Guid>
             {
                 Id = Guid.Parse("05e42964-a138-41c8-99d8-fca4aec4860b")
+            };
+
+        internal static Execution<Guid> MockedBackgroundProcessExecution
+            => new Execution<Guid>
+            {
+                Id = Guid.Parse("05e42964-a138-41c8-99d8-fca4aec4860b"),
+                ProcessDefinition = new ProcessDefinition<Guid>
+                {
+                    Type = ProcessType.Background
+                }
             };
 
         internal enum TestRightDefinitions { TestRightProcess }

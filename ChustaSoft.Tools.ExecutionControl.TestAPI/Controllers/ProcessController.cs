@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
 {
@@ -31,6 +32,8 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
 
             executionService.Execute(ProcessExamplesEnum.Process2, (ec) => TestMethodContext(ec));
 
+            executionService.Execute(ProcessExamplesEnum.BackgroundTestProcess, (ec) => TestAlwaysRunning(ec));
+
             return Ok();
         }
 
@@ -47,6 +50,12 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
         {
             executionContext.AddCheckpoint("Test checkpoint");
             executionContext.AddEndSummary("Test process finished overall summary");
+
+            return true;
+        }
+
+        public bool TestAlwaysRunning(ExecutionContext<Guid> executionContext)
+        {
 
             return true;
         }
