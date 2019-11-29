@@ -3,6 +3,7 @@
     public enum ExecutionAvailability
     {
         Available,
+        Bypass,
         Abort,
         Block
     }

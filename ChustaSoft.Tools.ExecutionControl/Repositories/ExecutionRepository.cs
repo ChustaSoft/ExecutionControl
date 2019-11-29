@@ -31,6 +31,15 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
                 .ToList();
         }
 
+        public Execution<TKey> GetPrevious<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible
+        {
+            return _dbContext.Executions.Include(x => x.ExecutionEvents).Include(x => x.ProcessDefinition)
+                .Where(x => x.ProcessDefinition.Name == process.ToString())
+                .OrderByDescending(x => x.BeginDate)
+                .Skip(1)
+                .FirstOrDefault();
+        }
+
         public Execution<TKey> GetLast<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible
         {
             return _dbContext.Executions.Include(x => x.ExecutionEvents).Include(x => x.ProcessDefinition)
@@ -48,7 +57,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
 
         public Execution<TKey> GetLastCompleted(Execution<TKey> currentExecution)
         {
-            return _dbContext.Executions
+            return _dbContext.Executions.Include(x => x.ProcessDefinition)
                .Where(x => x.ProcessDefinitionId.Equals(currentExecution.ProcessDefinitionId) && !x.Id.Equals(currentExecution.Id) && x.Status != Enums.ExecutionStatus.Blocked)
                .OrderByDescending(x => x.BeginDate)
                .FirstOrDefault();

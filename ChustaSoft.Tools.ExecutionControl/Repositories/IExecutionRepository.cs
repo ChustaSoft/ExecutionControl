@@ -11,6 +11,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
 
         IEnumerable<Execution<TKey>> GetDaily<TProcessEnum>(TProcessEnum process, DateTime day) where TProcessEnum : struct, IConvertible;
 
+        Execution<TKey> GetPrevious<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible;
+
         Execution<TKey> GetLast<TProcessEnum>(TProcessEnum process) where TProcessEnum : struct, IConvertible;
 
         Execution<TKey> GetLastDead(Execution<TKey> currentExecution);

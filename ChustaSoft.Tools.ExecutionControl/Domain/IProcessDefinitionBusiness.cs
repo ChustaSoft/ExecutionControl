@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChustaSoft.Tools.ExecutionControl.Entities;
+using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Domain
 {
@@ -6,6 +7,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
             where TKey : IComparable
             where TProcessEnum : struct, IConvertible
     {
+
+        ProcessDefinition<TKey> Get(TProcessEnum processEnum);
 
         void Setup();
 

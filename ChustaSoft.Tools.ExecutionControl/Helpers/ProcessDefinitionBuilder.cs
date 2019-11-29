@@ -1,5 +1,7 @@
 ﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Tools.ExecutionControl.Attributes;
 using ChustaSoft.Tools.ExecutionControl.Entities;
+using ChustaSoft.Tools.ExecutionControl.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -40,8 +42,19 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
             {
                 Active = true,
                 Name = process.ToString(),
-                Description = (process as Enum).GetDescription()
+                Description = (process as Enum).GetDescription(),
+                Type = GetProcessType(process)
             };
-        
+
+        private ProcessType GetProcessType(TProcessEnum process)
+        {
+            var processAttributes = (process as Enum).GetAttributes<ProcessDefinitionAttribute>();
+
+            if (processAttributes != null)
+                return processAttributes.Type;
+
+            return ProcessType.Background;
+        }
+
     }
 }

@@ -8,7 +8,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Repositories
     {
         IEnumerable<ProcessDefinition<TKey>> GetAll();
 
-        ProcessDefinition<TKey> Get(string processName);
+        ProcessDefinition<TKey> Get<TProcessEnum>(TProcessEnum processName) where TProcessEnum : struct, IConvertible;
 
         bool Save(ProcessDefinition<TKey> processDefinition);
 
