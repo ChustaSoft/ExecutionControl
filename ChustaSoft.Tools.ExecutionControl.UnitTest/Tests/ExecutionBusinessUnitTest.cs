@@ -35,6 +35,8 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             mockedExecutionRepository.Setup(m => m.GetLastCompleted(It.Is<Execution<Guid>>(x => x.Id == MockedExecutionPreviousAborted.Id))).Returns(MockedAbortedEndExecution);
             mockedExecutionRepository.Setup(m => m.GetLastCompleted(It.Is<Execution<Guid>>(x => x.Id == MockedExecutionPreviousNull.Id))).Returns(MockedNullPreviousExecution);
             mockedExecutionRepository.Setup(m => m.GetLastCompleted(It.Is<Execution<Guid>>(x => x.Id == MockedExecutionPreviousAbortOverdue.Id))).Returns(MockedRunningOverdueExecution);
+            mockedExecutionRepository.Setup(m => m.GetLastCompleted(It.Is<Execution<Guid>>(x => x.Id == MockedExecutionPreviousAlreadyRunning.Id))).Returns(MockedAlreadyRunning);
+            mockedExecutionRepository.Setup(m => m.GetPrevious(It.IsAny<TestRightDefinitions>())).Returns(new Execution<Guid>());
 
             ServiceUnderTest = new ExecutionBusiness<Guid>(mockedConfiguration, mockedProcessDefinitionRepository.Object, mockedExecutionRepository.Object);
         }
@@ -144,6 +146,16 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
         }
 
         [TestMethod]
+        public void Given_ExecutionAndAnotherAlreadyRunning_When_IsAllowed_Then_BlockRetrived()
+        {
+            var testExecution = MockedExecutionPreviousAlreadyRunning;
+
+            var result = ServiceUnderTest.IsAllowed(testExecution);
+
+            Assert.AreEqual(ExecutionAvailability.Block, result);
+        }
+
+        [TestMethod]
         public void Given_ExecutionOfBackgroundProcess_When_IsAllowed_Then_AbortRetrived()
         {
             var testExecution = MockedBackgroundProcessExecution;
@@ -151,6 +163,14 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             var result = ServiceUnderTest.IsAllowed(testExecution);
 
             Assert.AreEqual(ExecutionAvailability.Bypass, result);
+        }
+
+        [TestMethod]
+        public void Given_ProcessDefinition_When_GetPrevious_Then_ExecutionRetrived_CC100()
+        {
+            var result = ServiceUnderTest.GetPrevious(TestRightDefinitions.TestRightProcess);
+
+            Assert.IsNotNull(result);
         }
 
 
@@ -197,6 +217,14 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
                 Status = ExecutionStatus.Running
             };
 
+        internal static Execution<Guid> MockedAlreadyRunning
+            => new Execution<Guid>
+            {
+                Id = Guid.Parse("05e42964-b138-41c8-99d8-fca4aec4861e"),
+                BeginDate = DateTime.UtcNow.AddSeconds(-15),
+                Status = ExecutionStatus.Running
+            };
+
         internal static Execution<Guid> MockedExecution
             => new Execution<Guid>
             {
@@ -220,6 +248,12 @@ namespace ChustaSoft.Tools.ExecutionControl.UnitTest.Tests
             => new Execution<Guid>
             {
                 Id = Guid.Parse("05e42964-b138-41c8-99d8-fca4aec4860a")
+            };
+
+        internal static Execution<Guid> MockedExecutionPreviousAlreadyRunning
+            => new Execution<Guid>
+            {
+                Id = Guid.Parse("6b578bc0-866e-4a3d-96be-e79c118eb236")
             };
 
         internal static Execution<Guid> MockedExecutionPreviousAbortOverdue
