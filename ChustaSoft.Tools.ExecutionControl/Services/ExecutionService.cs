@@ -40,25 +40,35 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         #region Public methods
 
         public TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process)
-        {
-            return Task.Factory
-                .StartNew(() => PerformStartAttempt(processName))
-                .ContinueWith(task => PerformExecute(task.Result, process))
-                .Result;
-        }
+            => GetExecutionTask(processName, process).Result;
 
         public TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
-        {
-            return Task.Factory
-                .StartNew(() => PerformStartAttempt(processName))
-                .ContinueWith(task => PerformExecute(task.Result, process))
-                .Result;
-        }
+            => GetExecutionTask(processName, process).Result;
+
+        public async Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<TResult> process) 
+            => await GetExecutionTask(processName, process);
+
+        public async Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
+            => await GetExecutionTask(processName, process);
 
         #endregion
 
 
         #region Private methods
+
+        private Task<TResult> GetExecutionTask<TResult>(TProcessEnum processName, Func<TResult> process)
+        {
+            return Task.Factory
+                .StartNew(() => PerformStartAttempt(processName))
+                .ContinueWith(task => PerformExecute(task.Result, process));
+        }
+
+        private Task<TResult> GetExecutionTask<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
+        {
+            return Task.Factory
+                .StartNew(() => PerformStartAttempt(processName))
+                .ContinueWith(task => PerformExecute(task.Result, process));
+        }
 
         private (Execution<TKey> Execution, ExecutionAvailability Availability) PerformStartAttempt(TProcessEnum processName)
         {

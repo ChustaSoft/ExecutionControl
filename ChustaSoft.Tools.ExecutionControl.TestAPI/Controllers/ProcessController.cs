@@ -25,17 +25,86 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Test()
+        #region Synchronous executions examples
+
+        /// <summary>
+        /// Test example for timed scheduleded execution without using context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("sync/without-context")]
+        public ActionResult<IEnumerable<string>> TestSyncWithoutContext()
         {
             executionService.Execute(ProcessExamplesEnum.Process1, () => TestMethod());
 
+            return Ok();
+        }
+
+        /// <summary>
+        /// Test example for timed scheduleded execution using context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("sync/with-context")]
+        public ActionResult<IEnumerable<string>> TestSyncWithContext()
+        {
             executionService.Execute(ProcessExamplesEnum.Process2, (ec) => TestMethodContext(ec));
 
+            return Ok();
+        }
+
+        /// <summary>
+        /// Test example for method background execution (Always running) injecting context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("sync/background")]
+        public ActionResult<IEnumerable<string>> TestSyncBackground()
+        {
             executionService.Execute(ProcessExamplesEnum.BackgroundTestProcess, (ec) => TestAlwaysRunning(ec));
 
             return Ok();
         }
+
+        #endregion
+
+
+        #region Asynchronous executions examples
+
+        /// <summary>
+        /// Test example for timed scheduleded execution without using context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("async/without-context")]
+        public async Task<ActionResult<IEnumerable<string>>> TestAsyncWithoutContext()
+        {
+            var result = await executionService.ExecuteAsync(ProcessExamplesEnum.Process1, () => TestMethod());
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Test example for timed scheduleded execution using context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("async/with-context")]
+        public async Task<ActionResult<IEnumerable<string>>> TestAsyncWithContext()
+        {
+            var result = await executionService.ExecuteAsync(ProcessExamplesEnum.Process2, (ec) => TestMethodContext(ec));
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Test example for method background execution (Always running) injecting context for detailed logging
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("async/background")]
+        public async Task<ActionResult<IEnumerable<string>>> TestAsyncBackground()
+        {
+            var result = await executionService.ExecuteAsync(ProcessExamplesEnum.BackgroundTestProcess, (ec) => TestAlwaysRunning(ec));
+
+            return Ok(result);
+        }
+
+        #endregion
 
 
         public bool TestMethod()
