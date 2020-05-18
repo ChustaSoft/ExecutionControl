@@ -4,24 +4,25 @@
     <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <PackageId>ChustaSoft.Tools.ExecutionControl</PackageId>
     <RootNamespace>ChustaSoft.Tools.ExecutionControl</RootNamespace>
-    <Description>tool to manage the control of executions, status and trazability</Description>
+    <Description>Tool for the control of executions, status, traceability and reporting</Description>
     <Copyright>ChustaSoft</Copyright>
     <Authors>Xelit3</Authors>
     <Company>ChustaSoft</Company>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
     <PackageProjectUrl>https://github.com/ChustaSoft/ExecutionControl</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/ChustaSoft/ExecutionControl.git</RepositoryUrl>
+    <PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/wiki/Release-notes</PackageReleaseNotes>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Utilities;Helpers;Core;ExecutionControl;Process;Executions;Execution;Management;Data</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChustaSoft.Common" Version="1.2.0" />
+    <PackageReference Include="ChustaSoft.Common" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
