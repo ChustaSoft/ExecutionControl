@@ -2,7 +2,7 @@
 {
     public enum ProcessType
     {
-        Batch,
-        Background
+        Batch = 1,
+        Background = 2
     }
 }

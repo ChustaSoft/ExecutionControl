@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Tools.ExecutionControl.Model;
 using System;
+using System.Threading.Tasks;
 
 namespace ChustaSoft.Tools.ExecutionControl.Services
 {
@@ -11,6 +12,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         TResult Execute<TResult>(TProcessEnum processName, Func<TResult> process);
 
         TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process);
+
+        Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<TResult> process);
+
+        Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process);
 
     }
 }
