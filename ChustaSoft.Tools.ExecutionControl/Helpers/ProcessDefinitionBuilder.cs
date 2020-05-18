@@ -53,7 +53,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Helpers
             if (processAttributes != null)
                 return processAttributes.Type;
 
-            return ProcessType.Background;
+            return ProcessType.Batch;
         }
 
     }
