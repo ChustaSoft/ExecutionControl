@@ -1,13 +1,16 @@
 # ExecutionControl
+---
+[![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20ExecutionControl?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=12&branchName=master) [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl)
 
-· Description:
+
+##Description:
 
 Tool for define and control backend processes.
 ExecutionControl allow an application to manage processes by defining using an Enum Type.
 
 
 
-· Getting started:
+##Getting started:
 
 1. 
 	Install-Package ChustaSoft.Tools.ExecutionControl
@@ -84,15 +87,33 @@ ExecutionControl allow an application to manage processes by defining using an E
 			
 			- Run it using IExecutionService
 			
-			executionService.Execute(TestDefinedProcesses.Process2, (x) => TestProcess2Method(x));
+				executionService.Execute(TestDefinedProcesses.Process2, (x) => TestProcess2Method(x));
 			
 			- By this, during the execution, the process has the possibility to invoke:
 			
-			executionContext.AddCheckpoint("Test checkpoint");
+				executionContext.AddCheckpoint("Test checkpoint");
             executionContext.AddEndSummary("Test process finished overall summary");
-			
+	    
+	    
+	    	3) Defining an always running process:
 		
-Thanks for using ChustaSoft ExecutionControl in your project. Feel free to contribute, more info in issues section, ChustaSoft Twitter account oe contact us via email
+			- Add this Decorator to the Process Enum type:
+				[ProcessDefinition(ProcessType.Background,  "Background process description")]
+			
+		        - Define the process method
+			
+			- Run it using IExecutionService, in the example, also with context
+			
+				executionService.Execute(ProcessExamplesEnum.BackgroundTestProcess, (ec) => TestAlwaysRunning(ec));
+			
 
--	https://twitter.com/ChustaSoft
+*Thanks for using and contributing*
+---
+
+		
+Thanks for using ChustaSoft ExecutionControl in your project. Feel free to contribute, more info in issues section, ChustaSoft Twitter account or contact us via email
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/ChustaSoft?label=Follow%20us&style=social)](https://twitter.com/ChustaSoft)
+
+
 		
