@@ -48,12 +48,26 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
             services.AddScoped<IReportingService<TKey>, ReportingService<TKey>>();
         }
 
+        [Obsolete("New extension method without IApplicationBuilder is Available, in this case for IServiceProvider. Version 2.0.0 will remove it")]
         public static void ConfigureExecutionControl(this IApplicationBuilder app, IServiceProvider serviceProvider)
         {
             ConfigureDatabase(serviceProvider);
         }
 
+        public static void ConfigureExecutionControl(this IServiceProvider serviceProvider)
+        {
+            ConfigureDatabase(serviceProvider);
+        }
+
+        [Obsolete("New extension method without IApplicationBuilder is Available, in this case for IServiceProvider. Version 2.0.0 will remove it")]
         public static void ConfigureExecutionControl<TProcessEnum>(this IApplicationBuilder app, IServiceProvider serviceProvider)
+                where TProcessEnum : struct, IConvertible
+        {
+            ConfigureDatabase(serviceProvider);
+            ConfigureDefinitions<TProcessEnum>(serviceProvider);
+        }
+
+        public static void ConfigureExecutionControl<TProcessEnum>(this IServiceProvider serviceProvider)
                 where TProcessEnum : struct, IConvertible
         {
             ConfigureDatabase(serviceProvider);

@@ -31,7 +31,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            app.ConfigureExecutionControl<ProcessExamplesEnum>(serviceProvider);
+            serviceProvider.ConfigureExecutionControl<ProcessExamplesEnum>();
             app.UseMvc();
         }
     }
