@@ -1,6 +1,6 @@
 # ExecutionControl
 ---
-[![Build Status](https://dev.azure.com/chustasoft/BaseProfiler/_apis/build/status/Release/RELEASE%20-%20NuGet%20-%20ChustaSoft%20ExecutionControl?branchName=master)](https://dev.azure.com/chustasoft/BaseProfiler/_build/latest?definitionId=12&branchName=master) [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl)
+[![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/ExecutionControl/%5BRELEASE%5D%20-%20ChustaSoft%20ExecutionControl%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=12&branchName=master) [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl)
 
 
 ## Description:
