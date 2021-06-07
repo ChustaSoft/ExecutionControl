@@ -11,7 +11,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Enums
         [Description("Execution Process 2")]
         Process2,
 
-        [ProcessDefinition(ProcessType.Background,  "Background process")]
+        [ProcessDefinition(ProcessType.Background, "Background process")]
         BackgroundTestProcess
 
     }
