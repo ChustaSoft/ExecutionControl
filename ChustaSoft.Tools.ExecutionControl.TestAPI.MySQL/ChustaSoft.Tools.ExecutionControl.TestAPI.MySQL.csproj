@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChustaSoft.Tools.ExecutionControl.MySQL\ChustaSoft.Tools.ExecutionControl.MySQL.csproj" />
+    <ProjectReference Include="..\ChustaSoft.Tools.ExecutionControl.MySql\ChustaSoft.Tools.ExecutionControl.MySql.csproj" />
   </ItemGroup>
 
 </Project>

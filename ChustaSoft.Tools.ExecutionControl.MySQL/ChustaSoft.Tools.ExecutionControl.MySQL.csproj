@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-    <PackageId>ChustaSoft.Tools.ExecutionControl.MySQL</PackageId>
+    <PackageId>ChustaSoft.Tools.ExecutionControl.MySql</PackageId>
     <RootNamespace>ChustaSoft.Tools.ExecutionControl</RootNamespace>
-    <Description>Tool for the control of executions, status, traceability and reporting, using MySQL and EFCore</Description>
+    <Description>Tool for the control of executions, status, traceability and reporting, using MySql and EFCore</Description>
     <Copyright>ChustaSoft</Copyright>
     <Authors>Xelit3</Authors>
     <Company>ChustaSoft</Company>

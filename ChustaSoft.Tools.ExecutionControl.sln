@@ -15,9 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{6A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.SqlServer", "ChustaSoft.Tools.ExecutionControl.SqlServer\ChustaSoft.Tools.ExecutionControl.SqlServer.csproj", "{B710EE41-3C8D-4BDF-A436-FA1BA94F58CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.MySQL", "ChustaSoft.Tools.ExecutionControl.MySQL\ChustaSoft.Tools.ExecutionControl.MySQL.csproj", "{F3549369-FF8B-47D4-989B-E9370A9FBFE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.MySql", "ChustaSoft.Tools.ExecutionControl.MySql\ChustaSoft.Tools.ExecutionControl.MySql.csproj", "{F3549369-FF8B-47D4-989B-E9370A9FBFE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChustaSoft.Tools.ExecutionControl.TestAPI", "ChustaSoft.Tools.ExecutionControl.TestAPI\ChustaSoft.Tools.ExecutionControl.TestAPI.csproj", "{EFE10048-1848-46AC-95FD-3CD88AAFCAB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.TestAPI.SqlServer", "ChustaSoft.Tools.ExecutionControl.TestAPI.SqlServer\ChustaSoft.Tools.ExecutionControl.TestAPI.SqlServer.csproj", "{EFE10048-1848-46AC-95FD-3CD88AAFCAB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.TestAPI.MySql", "ChustaSoft.Tools.ExecutionControl.TestAPI.MySql\ChustaSoft.Tools.ExecutionControl.TestAPI.MySql.csproj", "{D0CB0218-8B73-4489-A951-E34D0D86A26E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{EFE10048-1848-46AC-95FD-3CD88AAFCAB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFE10048-1848-46AC-95FD-3CD88AAFCAB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFE10048-1848-46AC-95FD-3CD88AAFCAB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0CB0218-8B73-4489-A951-E34D0D86A26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0CB0218-8B73-4489-A951-E34D0D86A26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0CB0218-8B73-4489-A951-E34D0D86A26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0CB0218-8B73-4489-A951-E34D0D86A26E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{B710EE41-3C8D-4BDF-A436-FA1BA94F58CB} = {27FFB629-6BD0-4637-A67F-5A88B9E54CC7}
 		{F3549369-FF8B-47D4-989B-E9370A9FBFE4} = {27FFB629-6BD0-4637-A67F-5A88B9E54CC7}
 		{EFE10048-1848-46AC-95FD-3CD88AAFCAB8} = {6A64DFD2-FC92-48B7-B1D7-483D31A14EB0}
+		{D0CB0218-8B73-4489-A951-E34D0D86A26E} = {6A64DFD2-FC92-48B7-B1D7-483D31A14EB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {951A4ABF-5DBB-4282-8262-D9784C79053B}
