@@ -14,14 +14,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
         public static void RegisterExecutionControl<TProcessEnum>(this IServiceCollection services, string connectionString, int minutesToAbort = Constants.DEFAULT_ABORT_PROCESS_TIMEOUT)
                 where TProcessEnum : struct, IConvertible
         {
-#if NET5_0
             services.AddDbContext<ExecutionControlContext<Guid>>(opt => 
                     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                     mso => mso.MigrationsAssembly(MIGRATIONS_ASSEMBLY).SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore)
                 ));
-#else
-            services.AddDbContext<ExecutionControlContext<Guid>>(options => options.UseMySql(connectionString));
-#endif
 
             services.RegisterExecutionControl<TProcessEnum>(minutesToAbort);
         }
@@ -30,14 +26,11 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
                 where TKey : IComparable
                 where TProcessEnum : struct, IConvertible
         {
-#if NET5_0
             services.AddDbContext<ExecutionControlContext<TKey>>(opt => 
                     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                     mso => mso.MigrationsAssembly(MIGRATIONS_ASSEMBLY).SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore)
                 ));
-#else
-            services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseMySql(connectionString));
-#endif
+
             services.RegisterExecutionControl<TKey, TProcessEnum>(minutesToAbort);
         }
 

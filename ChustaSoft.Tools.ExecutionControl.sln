@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. NuGet", "1. NuGet", "{27
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Tests", "2. Tests", "{B69F0DD5-97F3-4896-9ABB-8793F3B6FCE7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{6A64DFD2-FC92-48B7-B1D7-483D31A14EB0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Examples", "3. Examples", "{6A64DFD2-FC92-48B7-B1D7-483D31A14EB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChustaSoft.Tools.ExecutionControl.SqlServer", "ChustaSoft.Tools.ExecutionControl.SqlServer\ChustaSoft.Tools.ExecutionControl.SqlServer.csproj", "{B710EE41-3C8D-4BDF-A436-FA1BA94F58CB}"
 EndProject
