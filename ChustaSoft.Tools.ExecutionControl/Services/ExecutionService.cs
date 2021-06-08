@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Tools.ExecutionControl.Services
 {
-    public class ExecutionService<TKey, TProcessEnum> : IExecutionService<TKey, TProcessEnum> 
+    public class ExecutionService<TKey, TProcessEnum> : IExecutionService<TKey, TProcessEnum>
             where TKey : IComparable
-            where TProcessEnum : struct, IConvertible 
+            where TProcessEnum : struct, IConvertible
     {
 
         #region Fields
@@ -45,7 +45,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         public TResult Execute<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
             => GetExecutionTask(processName, process).Result;
 
-        public async Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<TResult> process) 
+        public async Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<TResult> process)
             => await GetExecutionTask(processName, process);
 
         public async Task<TResult> ExecuteAsync<TResult>(TProcessEnum processName, Func<ExecutionContext<TKey>, TResult> process)
@@ -120,13 +120,13 @@ namespace ChustaSoft.Tools.ExecutionControl.Services
         {
             var previousExecution = _executionBusiness.GetPrevious(execution.ProcessDefinition.GetEnumDefinition<TProcessEnum>());
 
-            if(previousExecution != null)
+            if (previousExecution != null)
                 _executionBusiness.Complete(previousExecution, ExecutionResult.Success);
 
             PerformRunProcess(process, execution);
         }
 
-        private void PerformBypassExecution<TResult>(Func<ExecutionContext<TKey>, TResult> process,  Execution<TKey> execution)
+        private void PerformBypassExecution<TResult>(Func<ExecutionContext<TKey>, TResult> process, Execution<TKey> execution)
         {
             var previousExecution = _executionBusiness.GetPrevious(execution.ProcessDefinition.GetEnumDefinition<TProcessEnum>());
 

@@ -10,7 +10,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
 {
     public static class ConfigurationHelper
     {
-        
+
         #region Public methods
 
         public static void RegisterExecutionControl<TProcessEnum>(this IServiceCollection services, int minutesToAbort = Constants.DEFAULT_ABORT_PROCESS_TIMEOUT)
@@ -41,7 +41,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
         public static void ConfigureExecutionControl(this IServiceProvider serviceProvider)
         {
             ConfigureDatabase(serviceProvider);
-        }        
+        }
 
         public static void ConfigureExecutionControl<TProcessEnum>(this IServiceProvider serviceProvider)
                 where TProcessEnum : struct, IConvertible

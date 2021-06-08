@@ -96,14 +96,14 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         {
             var lastExecution = _executionRepository.GetLastCompleted(execution);
 
-                if (IsBackgroundProcess(execution))
-                    return ExecutionAvailability.Bypass;
-                if (ProcessCouldRun(lastExecution))
-                    return ExecutionAvailability.Available;
-                else if (ProcessMustBeAborted(lastExecution))
-                    return ExecutionAvailability.Abort;
-                else
-                    return ExecutionAvailability.Block;
+            if (IsBackgroundProcess(execution))
+                return ExecutionAvailability.Bypass;
+            if (ProcessCouldRun(lastExecution))
+                return ExecutionAvailability.Available;
+            else if (ProcessMustBeAborted(lastExecution))
+                return ExecutionAvailability.Abort;
+            else
+                return ExecutionAvailability.Block;
         }
 
         #endregion
@@ -121,8 +121,8 @@ namespace ChustaSoft.Tools.ExecutionControl.Domain
         }
 
         private bool ProcessCouldRun(Execution<TKey> lastExecution)
-            => lastExecution == null 
-                || lastExecution?.Status == ExecutionStatus.Finished 
+            => lastExecution == null
+                || lastExecution?.Status == ExecutionStatus.Finished
                 || lastExecution?.Status == ExecutionStatus.Aborted;
 
         private bool ProcessMustBeAborted(Execution<TKey> lastExecution)

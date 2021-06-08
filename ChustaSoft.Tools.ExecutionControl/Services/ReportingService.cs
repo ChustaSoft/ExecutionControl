@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using ChustaSoft.Tools.ExecutionControl.Domain;
+﻿using ChustaSoft.Tools.ExecutionControl.Domain;
 using ChustaSoft.Tools.ExecutionControl.Model;
+using System;
+using System.Collections.Generic;
 
 namespace ChustaSoft.Tools.ExecutionControl.Services
 {

@@ -1,5 +1,5 @@
-﻿using System;
-using ChustaSoft.Tools.ExecutionControl.Entities;
+﻿using ChustaSoft.Tools.ExecutionControl.Entities;
+using System;
 
 namespace ChustaSoft.Tools.ExecutionControl.Repositories
 {

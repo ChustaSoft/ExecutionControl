@@ -46,7 +46,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
                 entity.ToTable(EXECUTION_TABLENAME, SCHEMA_NAME);
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                
+
                 entity.Property(e => e.Status).HasConversion(
                     dtoValue => dtoValue.ToString(),
                     entityValue => EnumsHelper.GetByString<ExecutionStatus>(entityValue)
@@ -72,7 +72,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
                 entity.HasOne(e => e.Execution).WithMany(n => n.ExecutionEvents).HasForeignKey(e => e.ExecutionId);
             });
-          
+
             modelBuilder.Entity<ProcessDefinition<TKey>>(entity =>
             {
                 entity.ToTable(PROCESSDEFINITION_TABLENAME, SCHEMA_NAME);

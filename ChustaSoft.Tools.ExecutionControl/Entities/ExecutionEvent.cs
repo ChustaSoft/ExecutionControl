@@ -12,7 +12,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Entities
         public string Summary { get; set; }
 
         public ExecutionStatus Status { get; set; }
-        public Execution<TKey> Execution  { get; set; }
+        public Execution<TKey> Execution { get; set; }
 
     }
 }
