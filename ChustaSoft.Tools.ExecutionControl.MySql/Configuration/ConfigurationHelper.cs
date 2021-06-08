@@ -12,7 +12,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
                 where TProcessEnum : struct, IConvertible
         {
 #if NET5_0
-            services.AddDbContext<ExecutionControlContext<Guid>>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDbContext<ExecutionControlContext<Guid>>(options => 
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+                    mso => mso.MigrationsAssembly("ChustaSoft.Tools.ExecutionControl.MySql").SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore)
+                ));
 #else
             services.AddDbContext<ExecutionControlContext<Guid>>(options => options.UseMySql(connectionString));
 #endif
@@ -25,7 +28,10 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
                 where TProcessEnum : struct, IConvertible
         {
 #if NET5_0
-            services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDbContext<ExecutionControlContext<TKey>>(options => 
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+                    mso => mso.MigrationsAssembly("ChustaSoft.Tools.ExecutionControl.MySql").SchemaBehavior(Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Ignore)
+                ));
 #else
             services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseMySql(connectionString));
 #endif
