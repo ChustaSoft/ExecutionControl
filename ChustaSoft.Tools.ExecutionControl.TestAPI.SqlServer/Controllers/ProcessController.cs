@@ -107,7 +107,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
         #endregion
 
 
-        public bool TestMethod()
+        private bool TestMethod()
         {
             var allData = reportingService.Daily(DateTime.Now);
             var processData = reportingService.Daily(ProcessExamplesEnum.Process1, DateTime.Now);
@@ -115,7 +115,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
             return true;
         }
 
-        public bool TestMethodContext(ExecutionContext<Guid> executionContext)
+        private bool TestMethodContext(ExecutionContext<Guid> executionContext)
         {
             executionContext.AddCheckpoint("Test checkpoint");
             executionContext.AddEndSummary("Test process finished overall summary");
@@ -123,7 +123,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI.Controllers
             return true;
         }
 
-        public bool TestAlwaysRunning(ExecutionContext<Guid> executionContext)
+        private bool TestAlwaysRunning(ExecutionContext<Guid> executionContext)
         {
 
             return true;
