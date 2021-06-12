@@ -31,9 +31,10 @@ ExecutionControl allow an application to manage processes by defining using an E
 ## Getting started:
 
 1. 
-	Install-Package ChustaSoft.Tools.ExecutionControl
-	dotnet add package ChustaSoft.Tools.ExecutionControl
-	paket add ChustaSoft.Tools.ExecutionControl
+	Install the required package depending on you infrastructure (MySql or SqlServer)
+	- _Install-Package ChustaSoft.Tools.ExecutionControl.SqlServer_ or _Install-Package ChustaSoft.Tools.ExecutionControl.MySql_
+	- _dotnet add package ChustaSoft.Tools.ExecutionControl.SqlServer_ or _dotnet add package ChustaSoft.Tools.ExecutionControl.MySql_
+	- _paket add ChustaSoft.Tools.ExecutionControl.SqlServer_ or _paket add ChustaSoft.Tools.ExecutionControl.MySql_
 	
 2. Define Enum Type. Enum members must correspond to an specific process inside the solution
 
