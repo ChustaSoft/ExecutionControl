@@ -2,7 +2,6 @@
 using ChustaSoft.Tools.ExecutionControl.Domain;
 using ChustaSoft.Tools.ExecutionControl.Repositories;
 using ChustaSoft.Tools.ExecutionControl.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,27 +11,18 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
     public static class ConfigurationHelper
     {
 
-        #region Constants
-
-        private const int DEFAULT_ABORT_PROCESS_TIMEOUT = 60;
-
-        #endregion
-
-
         #region Public methods
 
-        public static void RegisterExecutionControl<TProcessEnum>(this IServiceCollection services, string connectionString, int minutesToAbort = DEFAULT_ABORT_PROCESS_TIMEOUT)
+        public static void RegisterExecutionControl<TProcessEnum>(this IServiceCollection services, int minutesToAbort = Constants.DEFAULT_ABORT_PROCESS_TIMEOUT)
                 where TProcessEnum : struct, IConvertible
         {
-            services.RegisterExecutionControl<Guid, TProcessEnum>(connectionString, minutesToAbort);
+            services.RegisterExecutionControl<Guid, TProcessEnum>(minutesToAbort);
         }
 
-        public static void RegisterExecutionControl<TKey, TProcessEnum>(this IServiceCollection services, string connectionString, int minutesToAbort = DEFAULT_ABORT_PROCESS_TIMEOUT)
+        public static void RegisterExecutionControl<TKey, TProcessEnum>(this IServiceCollection services, int minutesToAbort = Constants.DEFAULT_ABORT_PROCESS_TIMEOUT)
                 where TKey : IComparable
                 where TProcessEnum : struct, IConvertible
         {
-            services.AddDbContext<ExecutionControlContext<TKey>>(options => options.UseSqlServer(connectionString));
-
             services.AddSingleton(new ExecutionControlConfiguration { MinutesToAbort = minutesToAbort });
 
             services.AddTransient<IExecutionRepository<TKey>, ExecutionRepository<TKey>>();
@@ -48,23 +38,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Configuration
             services.AddScoped<IReportingService<TKey>, ReportingService<TKey>>();
         }
 
-        [Obsolete("New extension method without IApplicationBuilder is Available, in this case for IServiceProvider. Version 2.0.0 will remove it")]
-        public static void ConfigureExecutionControl(this IApplicationBuilder app, IServiceProvider serviceProvider)
-        {
-            ConfigureDatabase(serviceProvider);
-        }
-
         public static void ConfigureExecutionControl(this IServiceProvider serviceProvider)
         {
             ConfigureDatabase(serviceProvider);
-        }
-
-        [Obsolete("New extension method without IApplicationBuilder is Available, in this case for IServiceProvider. Version 2.0.0 will remove it")]
-        public static void ConfigureExecutionControl<TProcessEnum>(this IApplicationBuilder app, IServiceProvider serviceProvider)
-                where TProcessEnum : struct, IConvertible
-        {
-            ConfigureDatabase(serviceProvider);
-            ConfigureDefinitions<TProcessEnum>(serviceProvider);
         }
 
         public static void ConfigureExecutionControl<TProcessEnum>(this IServiceProvider serviceProvider)

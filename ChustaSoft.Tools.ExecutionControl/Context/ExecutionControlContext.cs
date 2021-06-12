@@ -4,7 +4,6 @@ using ChustaSoft.Tools.ExecutionControl.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-
 namespace ChustaSoft.Tools.ExecutionControl.Context
 {
     public class ExecutionControlContext<TKey> : DbContext where TKey : IComparable
@@ -13,15 +12,9 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
         #region Constants
 
         private const string SCHEMA_NAME = "Management";
-
         private const string EXECUTION_TABLENAME = "Executions";
         private const string EXECUTIONEVENT_TABLENAME = "ExecutionEvents";
-        private const string EXECUTIONMODULE_TABLENAME = "ExecutionModules";
-        private const string EXECUTIONMODULEEVENT_TABLENAME = "ExecutionModuleEvents";
         private const string PROCESSDEFINITION_TABLENAME = "ProcessDefinitions";
-        private const string PROCESSMODULEDEFINITION_TABLENAME = "ProcessModuleDefinitions";
-
-        private const int MAX_VARCHAR_LENGTH = 500;
 
         #endregion
 
@@ -53,7 +46,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
                 entity.ToTable(EXECUTION_TABLENAME, SCHEMA_NAME);
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                
+
                 entity.Property(e => e.Status).HasConversion(
                     dtoValue => dtoValue.ToString(),
                     entityValue => EnumsHelper.GetByString<ExecutionStatus>(entityValue)
@@ -79,7 +72,7 @@ namespace ChustaSoft.Tools.ExecutionControl.Context
 
                 entity.HasOne(e => e.Execution).WithMany(n => n.ExecutionEvents).HasForeignKey(e => e.ExecutionId);
             });
-          
+
             modelBuilder.Entity<ProcessDefinition<TKey>>(entity =>
             {
                 entity.ToTable(PROCESSDEFINITION_TABLENAME, SCHEMA_NAME);

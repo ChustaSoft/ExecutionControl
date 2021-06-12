@@ -1,6 +1,24 @@
 # ExecutionControl
----
-[![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/ExecutionControl/%5BRELEASE%5D%20-%20ChustaSoft%20ExecutionControl%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=12&branchName=master) [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl)
+
+![GitHub](https://img.shields.io/github/license/ChustaSoft/ExecutionControl)
+
+
+## Packages table
+| Package                                           | Status                                                                    | Pipeline                                                                                                                                                                                                                                                                                         |  NuGet version                                                                                                                                                             |    Downloads                                                                                                      |
+|---------------------------------------------------|---------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ChustaSoft.Tools.ExecutionControl                 | ![](https://img.shields.io/badge/-production--ready-green)                | [![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/ExecutionControl/%5BRELEASE%5D%20-%20ChustaSoft%20ExecutionControl%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=12&branchName=master)            | [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl)                             | ![Nuget](https://img.shields.io/nuget/dt/ChustaSoft.Tools.ExecutionControl?style=for-the-badge)                   |
+| ChustaSoft.Tools.ExecutionControl.SqlServer       | ![](https://img.shields.io/badge/-production--ready-green)                | [![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/ExecutionControl/%5BRELEASE%5D%20-%20ChustaSoft%20ExecutionControl.SqlServer%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=40&branchName=master)  | [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl.SqlServer)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl.SqlServer)         | ![Nuget](https://img.shields.io/nuget/dt/ChustaSoft.Tools.ExecutionControl.SqlServer?style=for-the-badge)         |
+| ChustaSoft.Tools.ExecutionControl.MySql           | ![](https://img.shields.io/badge/-production--ready-green)                | [![Build Status](https://dev.azure.com/chustasoft/SocialNET/_apis/build/status/OpenStack/ExecutionControl/%5BRELEASE%5D%20-%20ChustaSoft%20ExecutionControl.MySql%20(NuGet)?branchName=master)](https://dev.azure.com/chustasoft/SocialNET/_build/latest?definitionId=41&branchName=master)      | [![NuGet](https://img.shields.io/nuget/v/ChustaSoft.Tools.ExecutionControl.MySql)](https://www.nuget.org/packages/ChustaSoft.Tools.ExecutionControl.MySql)                 | ![Nuget](https://img.shields.io/nuget/dt/ChustaSoft.Tools.ExecutionControl.MySql?style=for-the-badge)             |
+
+### Packages compatibility table
+
+| Framework              | SqlServer From   | SqlServer Latest   | MySql/MariaDb From   | MySql/MariaDb Latest  |
+|------------------------|------------------|--------------------|----------------------|-----------------------|
+| .Net Core 2.1          | 1.0.0            | :heavy_check_mark: | :x:                  | :x:                   |
+| .Net Core 2.2          | 1.0.0            | 1.3.0 (Main pck)   | :x:                  | :x:                   |
+| .Net Core 3.0          | 1.0.0            | 1.3.0 (Main pck)   | :x:                  | :x:                   |
+| .Net Core 3.1          | 1.0.0            | :heavy_check_mark: | 1.0.0                | :heavy_check_mark:    | 
+| .Net 5.0               | 1.0.0            | :heavy_check_mark: | 1.0.0                | :heavy_check_mark:    | 
 
 
 ## Description:
@@ -114,6 +132,3 @@ ExecutionControl allow an application to manage processes by defining using an E
 Thanks for using ChustaSoft ExecutionControl in your project. Feel free to contribute, more info in issues section, ChustaSoft Twitter account or contact us via email
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/ChustaSoft?label=Follow%20us&style=social)](https://twitter.com/ChustaSoft)
-
-
-		

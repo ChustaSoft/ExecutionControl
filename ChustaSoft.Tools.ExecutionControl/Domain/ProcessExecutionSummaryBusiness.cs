@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ChustaSoft.Tools.ExecutionControl.Domain
 {
-    public class ProcessExecutionSummaryBusiness<TKey> : IProcessExecutionSummaryBusiness<TKey> 
+    public class ProcessExecutionSummaryBusiness<TKey> : IProcessExecutionSummaryBusiness<TKey>
             where TKey : IComparable
     {
 
