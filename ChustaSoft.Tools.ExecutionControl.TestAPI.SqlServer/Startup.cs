@@ -24,13 +24,13 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterExecutionControl<ProcessExamplesEnum>(_configuration.GetConnectionString("Connection"), 15);
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChustaSoft.Tools.ExecutionControl.TestAPI", Version = "v1" });
+                c.SwaggerDoc("TestSqlServer", new OpenApiInfo { Title = "ChustaSoft.Tools.ExecutionControl.TestAPI.SqlServer", Version = "v1" });
             });
+
+            services.RegisterExecutionControl<ProcessExamplesEnum>(_configuration.GetConnectionString("Connection"), 15);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
@@ -39,7 +39,7 @@ namespace ChustaSoft.Tools.ExecutionControl.TestAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChustaSoft.Tools.ExecutionControl.TestAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/TestSqlServer/swagger.json", "ChustaSoft.Tools.ExecutionControl.TestAPI.SqlServer v1"));
             }
 
             serviceProvider.ConfigureExecutionControl<ProcessExamplesEnum>();
