@@ -9,11 +9,11 @@
 		<Authors>Xelit3</Authors>
 		<Company>ChustaSoft</Company>
 		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-		<Version>1.4.0</Version>
-		<AssemblyVersion>1.4.0</AssemblyVersion>
-		<FileVersion>1.4.0</FileVersion>
+		<Version>1.5.0</Version>
+		<AssemblyVersion>1.5.0</AssemblyVersion>
+		<FileVersion>1.5.0</FileVersion>
 		<PackageProjectUrl>https://github.com/ChustaSoft/ExecutionControl</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/main/LICENSE</PackageLicenseUrl>
 		<RepositoryUrl>https://github.com/ChustaSoft/ExecutionControl.git</RepositoryUrl>
 		<PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/wiki/Release-notes</PackageReleaseNotes>
 		<RepositoryType>GIT</RepositoryType>

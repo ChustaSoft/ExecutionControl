@@ -9,13 +9,13 @@
 		<Authors>Xelit3</Authors>
 		<Company>ChustaSoft</Company>
 		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-		<Version>1.0.1</Version>
-		<AssemblyVersion>1.0.1</AssemblyVersion>
-		<FileVersion>1.0.1</FileVersion>
+		<Version>1.1.0</Version>
+		<AssemblyVersion>1.1.0</AssemblyVersion>
+		<FileVersion>1.1.0</FileVersion>
 		<PackageProjectUrl>https://github.com/ChustaSoft/ExecutionControl</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/main/LICENSE</PackageLicenseUrl>
 		<RepositoryUrl>https://github.com/ChustaSoft/ExecutionControl.git</RepositoryUrl>
-		<PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/wiki/Release-notes</PackageReleaseNotes>
+		<PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/blob/main/ChustaSoft.Tools.ExecutionControl.MySql/changelog.md</PackageReleaseNotes>
 		<RepositoryType>GIT</RepositoryType>
 		<PackageTags>Utilities;Helpers;Core;ExecutionControl;Process;Executions;Execution;Management;Data</PackageTags>
 		<PackageReleaseNotes></PackageReleaseNotes>
