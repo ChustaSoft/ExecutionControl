@@ -1,40 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-    <PackageId>ChustaSoft.Tools.ExecutionControl.SqlServer</PackageId>
-    <RootNamespace>ChustaSoft.Tools.ExecutionControl</RootNamespace>
-    <Description>Tool for the control of executions, status, traceability and reporting, using SQLServer and EFCore</Description>
-    <Copyright>ChustaSoft</Copyright>
-    <Authors>Xelit3</Authors>
-    <Company>ChustaSoft</Company>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
-    <PackageProjectUrl>https://github.com/ChustaSoft/ExecutionControl</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/ChustaSoft/ExecutionControl.git</RepositoryUrl>
-    <PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/wiki/Release-notes</PackageReleaseNotes>
-    <RepositoryType>GIT</RepositoryType>
-    <PackageTags>Utilities;Helpers;Core;ExecutionControl;Process;Executions;Execution;Management;Data</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<PackageId>ChustaSoft.Tools.ExecutionControl.SqlServer</PackageId>
+		<RootNamespace>ChustaSoft.Tools.ExecutionControl</RootNamespace>
+		<Description>Tool for the control of executions, status, traceability and reporting, using SQLServer and EFCore</Description>
+		<Copyright>ChustaSoft</Copyright>
+		<Authors>Xelit3</Authors>
+		<Company>ChustaSoft</Company>
+		<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+		<Version>1.1.0</Version>
+		<AssemblyVersion>1.1.0</AssemblyVersion>
+		<FileVersion>1.1.0</FileVersion>
+		<PackageProjectUrl>https://github.com/ChustaSoft/ExecutionControl</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/ChustaSoft/ExecutionControl/blob/main/LICENSE</PackageLicenseUrl>
+		<RepositoryUrl>https://github.com/ChustaSoft/ExecutionControl.git</RepositoryUrl>
+		<PackageReleaseNotes>https://github.com/ChustaSoft/ExecutionControl/blob/main/ChustaSoft.Tools.ExecutionControl.SqlServer/changelog.md</PackageReleaseNotes>
+		<RepositoryType>GIT</RepositoryType>
+		<PackageTags>Utilities;Helpers;Core;ExecutionControl;Process;Executions;Execution;Management;Data</PackageTags>
+		<PackageReleaseNotes></PackageReleaseNotes>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ChustaSoft.Tools.ExecutionControl\ChustaSoft.Tools.ExecutionControl.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ChustaSoft.Tools.ExecutionControl\ChustaSoft.Tools.ExecutionControl.csproj" />
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">    
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.15" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.14" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+	</ItemGroup>
 
 </Project>
